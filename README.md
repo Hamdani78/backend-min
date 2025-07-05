@@ -21,14 +21,6 @@ This system aims to improve administrative efficiency, expand information access
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- PHP >= 8.2
-- Node.js >= 18
-- MySQL 8+
-
 ### Installation
 
 ```bash
