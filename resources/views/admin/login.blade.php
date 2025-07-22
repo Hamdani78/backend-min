@@ -16,83 +16,55 @@
   <link rel="stylesheet" href="{{url('admin/css/adminlte.min.css')}}">
 </head>
 
-<body class="hold-transition login-page">
-  <div class="login-box">
-    <div class="login-logo">
-      <a href="../../index2.html"><b>ADMIN</b></a>
+<body style="margin: 0; padding: 0; background-color: #d3d3d3;">
+  <div style="display: flex; height: 100vh; width: 100vw;">
+    <!-- Kiri (Logo) -->
+    <div style="flex: 1.5; background-color: white; display: flex; justify-content: center; align-items: center; border-bottom-right-radius: 60px;">
+      <img src="{{ url('admin/img/ic_logo.png') }}" alt="Logo" style="width: 500px; height: auto;">
     </div>
-    <!-- /.login-logo -->
-    <div class="card">
-      <div class="card-body login-card-body">
-        <div class="text-center">
-          <img src="{{ url('admin/img/ic_logo.png') }}" alt="Logo" class="mb-4" width="100" height="100">
-          <h4 class="text-center">ADMIN MIN 1 ROKAN HULU</h4>
+
+    <!-- Kanan (Login Form) -->
+    <div style="flex: 1; background-color: #d3d3d3; display: flex; justify-content: center; align-items: center;">
+      <div class="login-box" style="width: 100%; max-width: 400px;">
+        <div class="login-logo" style="margin-bottom: 10px;">
+          <a href="{{ url('admin/login') }}"><b>LOGIN</b></a>
         </div>
-        <p class="login-box-msg">Sign in to start your session</p>
+        <div class="card">
+          <div class="card-body login-card-body">
+            <div class="text-center mb-3">
+              <h5 class="text-center" style="margin-bottom: 5px;">ADMIN MIN 1 ROKAN HULU</h5>
+              <p class="login-box-msg" style="margin-top: 0;">Sign in to start your session</p>
+            </div>
 
-        <form action="{{ url('admin/login') }}" method="post">@csrf
-          <div class="input-group mb-3">
-            <input name="email" type="email" class="form-control" placeholder="Email">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+            <form action="{{ url('admin/login') }}" method="post">@csrf
+              <div class="input-group mb-3">
+                <input name="email" type="email" class="form-control" placeholder="Email" required>
+                <div class="input-group-append">
+                  <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input name="password" type="password" class="form-control" placeholder="Password">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+              <div class="input-group mb-3">
+                <input name="password" type="password" class="form-control" placeholder="Password" required>
+                <div class="input-group-append">
+                  <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="remember">
-                <label for="remember">
-                  Remember Me
-                </label>
+              <div class="row">
+                <div class="col-8">
+                  <div class="icheck-primary">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember Me</label>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                </div>
               </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-            </div>
-            <!-- /.col -->
+            </form>
           </div>
-        </form>
-
-        <!-- <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
+        </div>
       </div>
-      <!-- /.social-auth-links -->
-
-        <!-- <p class="mb-1">
-        <a href="forgot-password.html">I forgot my password</a>
-      </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
-      </p> -->
-      </div>
-      <!-- /.login-card-body -->
     </div>
   </div>
-  <!-- /.login-box -->
-
-  <!-- jQuery -->
-  <script src="{{url('admin/plugins/jquery/jquery.min.js')}}"></script>
-  <!-- Bootstrap 4 -->
-  <script src="{{url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-  <!-- AdminLTE App -->
-  <script src="{{url('admin/js/adminlte.min.js')}}"></script>
 </body>
-
 </html>

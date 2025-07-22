@@ -8,15 +8,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <!-- <div class="image">
-                <img src="{{url('admin/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Admin Sekolah</a>
-            </div> -->
-        </div>
 
         <!-- SidebarSearch Form -->
         <div class="form-inline">
@@ -90,19 +81,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('pegawai.index') }}" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pendaftar</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('siswa.index') }}" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Berkas</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('fasilitas.index') }}" class="nav-link">
+                            <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>SPK</p>
                             </a>
@@ -114,7 +105,5 @@
                 </li>
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>

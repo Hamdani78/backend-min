@@ -31,7 +31,7 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $foto = $request->file('foto');
-        $foto->storeAs('public/pegawai', $foto->hashName());
+        $foto->storeAs('storage/pegawai', $foto->hashName());
         $pegawai = Pegawai::create([
             'nama' => $request->nama,
             'nip' => $request->nip,

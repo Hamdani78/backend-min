@@ -119,13 +119,9 @@
 @endsection
 
 @section('js')
-<!-- jQuery -->
 <script src="{{url('admin/plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap -->
 <script src="{{url('admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- overlayScrollbars -->
 <script src="{{url('admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
-<!-- AdminLTE App -->
 <script src="{{url('admin/js/adminlte.js')}}"></script>
 
 <!-- Ekko Lightbox -->
