@@ -11,9 +11,17 @@ use App\Models\Fasilitas;
 use App\Models\FasilitasImages;
 use App\Models\KegiatanImages;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        // Middleware untuk redirect jika sudah login saat akses /admin/login
+        $this->middleware('guest:admin')->except(['dashboard', 'logout']);
+        $this->middleware('auth:admin')->only(['dashboard']);
+    }
+
     public function dashboard()
     {
         $totalPegawai = Pegawai::count();
@@ -25,26 +33,54 @@ class AdminController extends Controller
         $kegiatan = Kegiatan::all();
         $fasilitas = Fasilitas::all();
 
-        return view('admin.dashboard', compact('totalPegawai', 'totalSiswa', 'totalKegiatan', 'totalFasilitas', 'fasilitasImages' , 'fasilitas', 'kegiatan', 'kegiatanImages'));
+        return Inertia::render('Admin/AdminDashboard', [
+            'totalPegawai' => $totalPegawai,
+            'totalSiswa' => $totalSiswa,
+            'totalKegiatan' => $totalKegiatan,
+            'totalFasilitas' => $totalFasilitas,
+            'kegiatanImages' => $kegiatanImages,
+            'fasilitasImages' => $fasilitasImages,
+            'kegiatan' => $kegiatan,
+            'fasilitas' => $fasilitas,
+        ]);
     }
+    public function showLoginForm()
+    {
+        return Inertia::render('Admin/AdminLogin', [
+            'csrf_token' => csrf_token(),
+        ]);
+    }
+
 
     public function login(Request $request)
     {
-        if($request->isMethod('post')){
-            $data = $request->all();
-            // echo "<pre>"; print_r($data); die;
-            if(Auth::guard('admin')->attempt(['email'=>$data['email'], 'password'=>$data['password']])){
-                return redirect("admin/dashboard");
-            }else{
-                return redirect()->back( )->with('error', 'Invalid Email or Password');
-            };
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+
+            return response()->noContent(); 
         }
-        return view('admin.login');
+
+        return response()->json([
+            'message' => 'Email atau password salah.'
+        ], 422);
     }
 
-    public function logout()
+
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-        return redirect('/admin/login');
+
+        //invalidate session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 }
