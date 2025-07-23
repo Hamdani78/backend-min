@@ -6,95 +6,79 @@ use App\Http\Controllers\Controller;
 use App\Models\Siswa;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $siswa = Siswa::latest()->paginate(10);
-        return view('admin.table.siswa.index', compact('siswa'));
+        $siswa = Siswa::with('pegawai')->latest()->paginate(10);
+
+        return Inertia::render('Admin/Siswa/Index', [
+            'siswa' => $siswa
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $pegawai = Pegawai::all();
-        return view('admin.table.siswa.tambah', compact('pegawai'));
+        $pegawai = Pegawai::select('id', 'nama')->get();
+
+        return Inertia::render('Admin/Siswa/Tambah', [
+            'pegawai' => $pegawai
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'kelas' => 'required',
             'jml_siswa' => 'required|numeric',
-            'pegawai' => 'required', // Pastikan pegawai dipilih
+            'pegawai' => 'required|exists:pegawai,id',
         ]);
 
         $siswa = Siswa::create([
             'kelas' => $request->kelas,
             'jml_siswa' => $request->jml_siswa,
-            'pegawai_id' => $request->pegawai, // Gunakan id pegawai dari input
+            'pegawai_id' => $request->pegawai,
         ]);
 
-        if ($siswa) {
-            return redirect()->route('siswa.index')->with(['success' => 'Data Berhasil Disimpan']);
-        } else {
-            return redirect()->route('siswa.index')->with(['error' => 'Data Gagal Disimpan']);
-        }
+        return redirect()->route('siswa.index')->with('success', 'Data Berhasil Disimpan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
-        $siswa = Siswa::find($id);
-        $pegawai = Pegawai::all(); // Ambil semua pegawai untuk ditampilkan di form edit
-        return view('admin.table.siswa.update', compact('siswa', 'pegawai'));
+        $siswa = Siswa::with('pegawai')->findOrFail($id);
+        $pegawai = Pegawai::select('id', 'nama')->get();
+
+        return Inertia::render('Admin/Siswa/Update', [
+            'siswa' => $siswa,
+            'pegawai' => $pegawai,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
             'kelas' => 'required',
             'jml_siswa' => 'required|numeric',
-            'pegawai' => 'required', // Pastikan pegawai dipilih
+            'pegawai' => 'required|exists:pegawai,id',
         ]);
 
         $siswa = Siswa::findOrFail($id);
         $siswa->update([
             'kelas' => $request->kelas,
             'jml_siswa' => $request->jml_siswa,
-            'pegawai_id' => $request->pegawai, // Gunakan id pegawai dari input
+            'pegawai_id' => $request->pegawai,
         ]);
 
-        if ($siswa) {
-            return redirect()->route('siswa.index')->with(['success' => 'Data Berhasil Diubah!']);
-        } else {
-            return redirect()->route('siswa.index')->with(['error' => 'Data Gagal Diubah!']);
-        }
+        return redirect()->route('siswa.index')->with('success', 'Data Berhasil Diubah');
     }
 
     public function destroy($id)
     {
-        //
         $siswa = Siswa::findOrFail($id);
         $siswa->delete();
-        if ($siswa) {
-            return redirect()->route('siswa.index')->with(['success' => 'Data Berhasil Dihapus!']);
-        } else {
-            return redirect()->route('siswa.index')->with(['error' => 'Data Gagal Dihapus!']);
-        }
+
+        return redirect()->route('siswa.index')->with('success', 'Data Berhasil Dihapus');
     }
 }

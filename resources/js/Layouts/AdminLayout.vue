@@ -1,46 +1,31 @@
 <template>
-  <div class="wrapper">
-    <!-- Preloader -->
-    <div v-if="loading" class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__wobble" src="/admin/img/ic_logo.png" alt="AdminLogo" height="60" width="60" />
-    </div>
-
-    <!-- Header -->
-    <Header />
-
+  <div class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
     <Sidebar />
 
-    <!-- Main Content -->
-    <main class="content-wrapper">
-      <section class="content">
-        <div class="container-fluid">
-          <slot />
-        </div>
-      </section>
-    </main>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col">
+      <!-- Header -->
+      <Header />
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark"></aside>
+      <!-- Page Content -->
+      <main class="flex-1 p-4 overflow-auto">
+        <slot />
+      </main>
 
-    <!-- Footer -->
-    <Footer />
+      <!-- Footer -->
+      <Footer />
+    </div>
   </div>
 </template>
 
 <script setup>
-import Header from './Header.vue'
+// Komponen layout bagian-bagian
 import Sidebar from './Sidebar.vue'
+import Header from './Header.vue'
 import Footer from './Footer.vue'
-import { ref, onMounted } from 'vue'
-
-const loading = ref(true)
-onMounted(() => loading.value = false)
 </script>
 
 <style>
-.content-wrapper {
-  min-height: calc(100vh - 57px);
-  padding: 1rem;
-}
+/* Tambahkan jika butuh animasi preloader custom */
 </style>
