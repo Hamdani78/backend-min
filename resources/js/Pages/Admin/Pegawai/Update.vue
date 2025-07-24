@@ -76,16 +76,17 @@ function handleFileChange(e) {
 }
 
 function submit() {
-  const data = {
-    ...form.data(),
-    _method: 'put', // override ke PUT
-  }
-
-  form.post(route('pegawai.update', props.pegawai.id), {
-    data,
+  form.transform((data) => ({
+    ...data,
+    _method: 'put',
+  })).post(route('pegawai.update', props.pegawai.id), {
     forceFormData: true,
     preserveScroll: true,
+    onError: (errors) => {
+      console.error(errors)
+    },
   })
 }
+
 </script>
 

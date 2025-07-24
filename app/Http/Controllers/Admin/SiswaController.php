@@ -33,26 +33,30 @@ class SiswaController extends Controller
         $request->validate([
             'kelas' => 'required',
             'jml_siswa' => 'required|numeric',
-            'pegawai' => 'required|exists:pegawai,id',
+            'laki_laki' => 'required|numeric',
+            'perempuan' => 'required|numeric',
+            'pegawai_id' => 'required|exists:pegawais,id',
         ]);
 
-        $siswa = Siswa::create([
+        Siswa::create([
             'kelas' => $request->kelas,
             'jml_siswa' => $request->jml_siswa,
-            'pegawai_id' => $request->pegawai,
+            'laki_laki' => $request->laki_laki,
+            'perempuan' => $request->perempuan,
+            'pegawai_id' => $request->pegawai_id,
         ]);
 
-        return redirect()->route('siswa.index')->with('success', 'Data Berhasil Disimpan');
+        return redirect()->route('siswa.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
     {
-        $siswa = Siswa::with('pegawai')->findOrFail($id);
+        $siswa = Siswa::findOrFail($id);
         $pegawai = Pegawai::select('id', 'nama')->get();
 
         return Inertia::render('Admin/Siswa/Update', [
             'siswa' => $siswa,
-            'pegawai' => $pegawai,
+            'pegawai' => $pegawai
         ]);
     }
 
@@ -61,17 +65,21 @@ class SiswaController extends Controller
         $request->validate([
             'kelas' => 'required',
             'jml_siswa' => 'required|numeric',
-            'pegawai' => 'required|exists:pegawai,id',
+            'laki_laki' => 'required|numeric',
+            'perempuan' => 'required|numeric',
+            'pegawai_id' => 'required|exists:pegawais,id',
         ]);
 
         $siswa = Siswa::findOrFail($id);
         $siswa->update([
             'kelas' => $request->kelas,
             'jml_siswa' => $request->jml_siswa,
-            'pegawai_id' => $request->pegawai,
+            'laki_laki' => $request->laki_laki,
+            'perempuan' => $request->perempuan,
+            'pegawai_id' => $request->pegawai_id,
         ]);
 
-        return redirect()->route('siswa.index')->with('success', 'Data Berhasil Diubah');
+        return redirect()->route('siswa.index')->with('success', 'Data berhasil diubah');
     }
 
     public function destroy($id)

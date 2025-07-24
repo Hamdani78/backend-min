@@ -8,20 +8,21 @@ use App\Models\Fasilitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; // Mengimpor kelas File
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class FasilitasImagesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(int $fasilitasId)
     {
         $fasilitas = Fasilitas::findOrFail($fasilitasId);
-
         $fasilitasImages = FasilitasImages::where('fasilitas_id', $fasilitasId)->get();
-        return view('admin.table.fasilitas-image.index', ['fasilitas' => $fasilitas, 'images' => $fasilitasImages]);
-    }
 
+        return Inertia::render('Admin/FasilitasImage/Index', [
+            'fasilitas' => $fasilitas,
+            'images' => $fasilitasImages,
+        ]);
+    }
+    
     public function store(Request $request, int $fasilitasId)
     {
         $request->validate([
@@ -64,7 +65,7 @@ class FasilitasImagesController extends Controller
 
             return redirect()->back()->with('status', 'Gambar berhasil diunggah.');
         } catch (\Exception $e) {
-            
+
             DB::rollBack();
 
             return redirect()->back()->with('error', 'Gagal menyimpan gambar. Silakan coba lagi.');
@@ -75,7 +76,7 @@ class FasilitasImagesController extends Controller
     {
         $fasilitasImages = FasilitasImages::findOrFail($fasilitasImageId);
 
-        if(File::exists(public_path($fasilitasImages->foto))){
+        if (File::exists(public_path($fasilitasImages->foto))) {
             File::delete(public_path($fasilitasImages->foto));
         }
 

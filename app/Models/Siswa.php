@@ -9,7 +9,7 @@ class Siswa extends Model
 {
     use HasFactory;
 
-    protected $fillable= ['kelas', 'jml_siswa', 'pegawai_id'];
+    protected $fillable= ['kelas', 'laki_laki', 'perempuan', 'jml_siswa', 'pegawai_id'];
 
     public function pegawai()
     {

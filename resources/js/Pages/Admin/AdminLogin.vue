@@ -86,10 +86,6 @@ const submitForm = async () => {
                             <button type="submit" class="btn btn-dark">Masuk</button>
                         </div>
 
-                        <div class="text-center">
-                            <small>Belum Terdaftar? <a href="#">Registrasi disini</a></small>
-                        </div>
-
                         <div v-if="errorMessage" class="alert alert-danger mt-2">
                             {{ errorMessage }}
                         </div>

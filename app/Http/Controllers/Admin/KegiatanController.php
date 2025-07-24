@@ -5,98 +5,106 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class KegiatanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar kegiatan.
      */
     public function index()
     {
         $kegiatan = Kegiatan::latest()->paginate(10);
-        return view('admin.table.kegiatan.index', compact('kegiatan'));
+        return Inertia::render('Admin/Kegiatan/Index', [
+            'kegiatan' => $kegiatan
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Form tambah kegiatan.
      */
     public function create()
     {
-        return view('admin.table.kegiatan.tambah');
+        return Inertia::render('Admin/Kegiatan/Tambah');
     }
+
     /**
-     * Store a newly created resource in storage.
+     * Simpan kegiatan baru.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
         $kegiatan = Kegiatan::create([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
         ]);
-        if ($kegiatan) {
-            return redirect()->route('kegiatan.index')->with(['succes' => 'Data Berhasil Disimpan']);
-        } else {
-            return redirect()->route('kegiatan.index')->with(['error' => 'Data Gagal Disimpan']);
-        }
+
+        return redirect()->route('kegiatan.index')->with(
+            $kegiatan
+                ? ['status' => 'Data Berhasil Disimpan']
+                : ['error' => 'Data Gagal Disimpan']
+        );
     }
 
     /**
-     * Display the specified resource.
+     * Tampilkan detail kegiatan (opsional).
      */
     public function show($id)
     {
-        //
         $kegiatan = Kegiatan::findOrFail($id);
-        return view('admin.table.kegiatan.show', compact('kegiatan'));
+        return Inertia::render('Admin/Kegiatan/Show', compact('kegiatan'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Form edit kegiatan.
      */
     public function edit($id)
     {
-        $kegiatan = Kegiatan::find($id);
-        return view('admin.table.kegiatan.update', compact('kegiatan'));
+        $kegiatan = Kegiatan::findOrFail($id);
+        return Inertia::render('Admin/Kegiatan/Update', [
+            'kegiatan' => $kegiatan,
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update kegiatan.
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
         $kegiatan = Kegiatan::findOrFail($id);
-        if ($request) {
-            $kegiatan->update([
-                'nama' => $request->nama,
-                'deskripsi' => $request->deskripsi,
-            ]);
-        } else {
-            $kegiatan->update([
-                'nama' => $request->nama,
-                'deskripsi' => $request->deskripsi,
-            ]);
-        }
-        if ($kegiatan) {
-            return redirect()->route('kegiatan.index')->with(['success' => 'Data Berhasil Diubah!']);
-        } else {
-            return redirect()->route('kegiatan.index')->with(['error' => 'Data Gagal Diubah!']);
-        }
+        $updated = $kegiatan->update([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()->route('kegiatan.index')->with(
+            $updated
+                ? ['status' => 'Data Berhasil Diubah!']
+                : ['error' => 'Data Gagal Diubah!']
+        );
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus kegiatan.
      */
     public function destroy($id)
     {
-        //
         $kegiatan = Kegiatan::findOrFail($id);
-        $kegiatan->delete();
-        if ($kegiatan) {
-            return redirect()->route('kegiatan.index')->with(['success' => 'Data Berhasil Dihapus!']);
-        } else {
-            return redirect()->route('kegiatan.index')->with(['error' => 'Data Gagal Dihapus!']);
-        }
+        $deleted = $kegiatan->delete();
+
+        return redirect()->route('kegiatan.index')->with(
+            $deleted
+                ? ['status' => 'Data Berhasil Dihapus!']
+                : ['error' => 'Data Gagal Dihapus!']
+        );
     }
 }
-

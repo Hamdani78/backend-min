@@ -5,97 +5,68 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FasilitasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $fasilitas = Fasilitas::latest()->paginate(10);
-        return view('admin.table.fasilitas.index', compact('fasilitas'));
+        return Inertia::render('Admin/Fasilitas/Index', [
+            'fasilitas' => $fasilitas
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.table.fasilitas.tambah');
+        return Inertia::render('Admin/Fasilitas/Tambah');
     }
-    /**
-     * Store a newly created resource in storage.
-     */
+
+    public function edit($id)
+    {
+        $fasilitas = Fasilitas::findOrFail($id);
+        return Inertia::render('Admin/Fasilitas/Update', [
+            'fasilitas' => $fasilitas
+        ]);
+    }
+
     public function store(Request $request)
     {
-        //
-        $fasilitas = Fasilitas::create([
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        Fasilitas::create([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
         ]);
-        if ($fasilitas) {
-            return redirect()->route('fasilitas.index')->with(['succes' => 'Data Berhasil Disimpan']);
-        } else {
-            return redirect()->route('fasilitas.index')->with(['error' => 'Data Gagal Disimpan']);
-        }
+
+        return redirect()->route('fasilitas.index')->with('success', 'Data Berhasil Disimpan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        //
-        $fasilitas = Fasilitas::findOrFail($id);
-        return view('admin.table.fasilitas.show', compact('fasilitas'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        $fasilitas = Fasilitas::find($id);
-        return view('admin.table.fasilitas.update', compact('fasilitas'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+        ]);
+
         $fasilitas = Fasilitas::findOrFail($id);
-        if ($request) {
-            $fasilitas->update([
-                'nama' => $request->nama,
-                'deskripsi' => $request->deskripsi,
-            ]);
-        } else {
-            $fasilitas->update([
-                'nama' => $request->nama,
-                'deskripsi' => $request->deskripsi,
-            ]);
-        }
-        if ($fasilitas) {
-            return redirect()->route('fasilitas.index')->with(['success' => 'Data Berhasil Diubah!']);
-        } else {
-            return redirect()->route('fasilitas.index')->with(['error' => 'Data Gagal Diubah!']);
-        }
+
+        $fasilitas->update([
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+        ]);
+
+        return redirect()->route('fasilitas.index')->with('success', 'Data Berhasil Diubah!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
         $fasilitas = Fasilitas::findOrFail($id);
         $fasilitas->delete();
-        if ($fasilitas) {
-            return redirect()->route('fasilitas.index')->with(['success' => 'Data Berhasil Dihapus!']);
-        } else {
-            return redirect()->route('fasilitas.index')->with(['error' => 'Data Gagal Dihapus!']);
-        }
+
+        return redirect()->route('fasilitas.index')->with('success', 'Data Berhasil Dihapus!');
     }
 }

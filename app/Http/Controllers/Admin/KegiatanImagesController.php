@@ -8,6 +8,7 @@ use App\Models\KegiatanImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; // Mengimpor kelas File
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class KegiatanImagesController extends Controller
 {
@@ -15,11 +16,13 @@ class KegiatanImagesController extends Controller
     public function index(int $kegiatanId)
     {
         $kegiatan = Kegiatan::findOrFail($kegiatanId);
-
         $kegiatanImages = KegiatanImages::where('kegiatans_id', $kegiatanId)->get();
-        return view('admin.table.kegiatan-image.index', ['kegiatan' => $kegiatan, 'images' => $kegiatanImages]);
-    }
 
+        return Inertia::render('Admin/KegiatanImage/Index', [
+            'kegiatan' => $kegiatan,
+            'images' => $kegiatanImages,
+        ]);
+    }
     public function store(Request $request, int $kegiatanId)
     {
         $request->validate([
@@ -62,7 +65,7 @@ class KegiatanImagesController extends Controller
 
             return redirect()->back()->with('status', 'Gambar berhasil diunggah.');
         } catch (\Exception $e) {
-            
+
             DB::rollBack();
 
             return redirect()->back()->with('error', 'Gagal menyimpan gambar. Silakan coba lagi.');
@@ -73,7 +76,7 @@ class KegiatanImagesController extends Controller
     {
         $kegiatanImages = KegiatanImages::findOrFail($kegiatanImageId);
 
-        if(File::exists(public_path($kegiatanImages->foto))){
+        if (File::exists(public_path($kegiatanImages->foto))) {
             File::delete(public_path($kegiatanImages->foto));
         }
 
