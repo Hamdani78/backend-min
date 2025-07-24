@@ -1,7 +1,7 @@
 <template>
   <aside class="w-64 bg-gray-900 text-white min-h-screen">
     <Link href="/admin/dashboard" class="flex items-center px-4 py-4 border-b border-gray-700">
-      <img src="/admin/img/ic_logo.png" alt="Admin Logo" class="w-8 h-8 rounded-full" />
+      <img src="../Pages/Landing/assets/img/ic_logo.png" alt="Admin Logo" class="w-8 h-8 rounded-full" />
       <span class="font-light text-lg">ADMIN</span>
     </Link>
 
