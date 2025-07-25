@@ -55,10 +55,15 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::resource('/fasilitas', FasilitasController::class);
     Route::resource('/kegiatan', KegiatanController::class);
 
+    // Pendaftar routes
+    Route::resource('pendaftar', \App\Http\Controllers\Admin\PendaftarController::class);
+
+    // Fasilitas images routes
     Route::get('/fasilitas/{fasilitasId}/images', [FasilitasImagesController::class, 'index'])->name('fasilitasimage.index');
     Route::post('/fasilitas/{fasilitasId}/images', [FasilitasImagesController::class, 'store'])->name('fasilitasimage.store');
     Route::delete('/fasilitas/images/{fasilitasImageId}', [FasilitasImagesController::class, 'destroy'])->name('fasilitasimage.destroy');
 
+    // Kegiatan images routes
     Route::get('/kegiatan/{kegiatanId}/images', [KegiatanImagesController::class, 'index'])->name('kegiatanimage.index');
     Route::post('/kegiatan/{kegiatanId}/images', [KegiatanImagesController::class, 'store'])->name('kegiatanimage.store');
     Route::delete('/kegiatan/images/{kegiatanImageId}', [KegiatanImagesController::class, 'destroy'])->name('kegiatanimage.destroy');
