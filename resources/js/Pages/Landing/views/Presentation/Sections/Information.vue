@@ -3,6 +3,7 @@ import RotatingCard from "../../../examples/cards/rotatingCards/RotatingCard.vue
 import RotatingCardFront from "../../../examples/cards/rotatingCards/RotatingCardFront.vue";
 import RotatingCardBack from "../../../examples/cards/rotatingCards/RotatingCardBack.vue";
 import DefaultInfoCard from "../../../examples/cards/infoCards/DefaultInfoCard.vue";
+import imageUrl from '../../../assets/img/min/bersama.jpg';
 </script>
 <template>
   <section class="my-2 py-2">
@@ -11,14 +12,14 @@ import DefaultInfoCard from "../../../examples/cards/infoCards/DefaultInfoCard.v
         <div class="col-lg-6 ms-auto me-auto p-lg-6 mt-lg-0 mt-6">
           <RotatingCard>
             <RotatingCardFront
-              image="./src/assets/img/min/bersama.jpg"
+              :image="imageUrl"
               icon="touch_app"
               title="Selamat Datang di Website MIN 1 ROKAN HULU"
               description="Semoga Informasi yang di tampilkan dapat membantu bapak dan ibu sekalian, sekian terima kasih."
             />
 
             <RotatingCardBack
-              image="./src/assets/img/min/bersama.jpg"
+              :image="imageUrl"
               title="Selamat Datang di Website MIN 1 ROKAN HULU"
               description="Semoga Informasi yang di tampilkan dapat membantu bapak dan ibu sekalian, sekian terima kasih."
               :action="[
