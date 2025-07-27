@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PegawaiController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\PendaftarController;
 use App\Http\Controllers\Admin\BerkasPendaftaranController;
+use App\Http\Controllers\Admin\SpkController;
 
 // User Controllers
 use App\Http\Controllers\User\UserController;
@@ -24,7 +25,7 @@ use App\Http\Controllers\User\DaftarUlangController;
 
 // Landing Page
 Route::get('/', function () {
-    return view('landing'); 
+    return view('landing');
 });
 
 // User Auth Routes
@@ -62,6 +63,17 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('/pendaftar', PendaftarController::class);
     Route::resource('/berkas-pendaftaran', BerkasPendaftaranController::class);
 
+    // SPK
+    Route::get('/spk', [SpkController::class, 'index'])->name('spk.index');
+    Route::post('/spk', [SpkController::class, 'store'])->name('spk.store');
+    Route::get('/spk/proses', [SpkController::class, 'proses'])->name('spk.proses');
+    Route::get('/spk/hasil', function () {
+        return Inertia::render('Admin/Spk/Hasil');
+    })->name('spk.hasil');
+    Route::get('/spk/pdf', [SpkController::class, 'exportPdf'])->name('spk.pdf');
+    Route::get('/spk/excel', [SpkController::class, 'exportExcel'])->name('spk.excel');
+
+
     Route::get('/fasilitas/{fasilitasId}/images', [FasilitasImagesController::class, 'index'])->name('fasilitasimage.index');
     Route::post('/fasilitas/{fasilitasId}/images', [FasilitasImagesController::class, 'store'])->name('fasilitasimage.store');
     Route::delete('/fasilitas/images/{fasilitasImageId}', [FasilitasImagesController::class, 'destroy'])->name('fasilitasimage.destroy');
@@ -70,6 +82,5 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::post('/kegiatan/{kegiatanId}/images', [KegiatanImagesController::class, 'store'])->name('kegiatanimage.store');
     Route::delete('/kegiatan/images/{kegiatanImageId}', [KegiatanImagesController::class, 'destroy'])->name('kegiatanimage.destroy');
 });
-
 
 // require __DIR__ . '/auth.php';

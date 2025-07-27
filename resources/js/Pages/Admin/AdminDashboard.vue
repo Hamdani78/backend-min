@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import Lightbox from 'vue-easy-lightbox'
 import StatCard from '@/Components/StatCard.vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
 defineOptions({ layout: AdminLayout })
 
@@ -52,19 +54,18 @@ function filteredKegiatanImages(id) {
     </div>
     <div class="grid gap-6">
       <div v-for="item in fasilitas" :key="item.id" class="bg-white rounded shadow p-4">
-        <h2 class="text-xl font-semibold mb-2">{{ item.nama }}</h2>
-        <div class="flex flex-wrap gap-4">
-          <template v-if="filteredFasilitasImages(item.id).length">
-            <img
-              v-for="(img, index) in filteredFasilitasImages(item.id)"
-              :key="img.id"
-              :src="img.foto"
-              class="w-32 h-32 object-cover rounded cursor-pointer"
-              @click="openLightbox(filteredFasilitasImages(item.id).map(i => i.foto), index)"
-            />
-          </template>
-          <p v-else class="text-gray-500">Tidak ada foto tersedia untuk fasilitas ini.</p>
-        </div>
+        <h2 class="text-xl font-semibold mb-3">{{ item.nama }}</h2>
+        <template v-if="filteredFasilitasImages(item.id).length">
+          <div class="overflow-hidden">
+            <Swiper :slides-per-view="'auto'" :space-between="10" class="!w-full">
+              <SwiperSlide v-for="(img, index) in filteredFasilitasImages(item.id)" :key="img.id" class="!w-36">
+                <img :src="`/${img.foto}`" class="w-full h-32 object-cover rounded cursor-pointer"
+                  @click="openLightbox(filteredFasilitasImages(item.id).map(i => `/${i.foto}`), index)" />
+              </SwiperSlide>
+            </Swiper>
+          </div>
+        </template>
+        <p v-else class="text-gray-500">Tidak ada foto tersedia untuk fasilitas ini.</p>
       </div>
     </div>
 
@@ -74,28 +75,22 @@ function filteredKegiatanImages(id) {
     </div>
     <div class="grid gap-6">
       <div v-for="item in kegiatan" :key="item.id" class="bg-white rounded shadow p-4">
-        <h2 class="text-xl font-semibold mb-2">{{ item.nama }}</h2>
-        <div class="flex flex-wrap gap-4">
-          <template v-if="filteredKegiatanImages(item.id).length">
-            <img
-              v-for="(img, index) in filteredKegiatanImages(item.id)"
-              :key="img.id"
-              :src="img.foto"
-              class="w-32 h-32 object-cover rounded cursor-pointer"
-              @click="openLightbox(filteredKegiatanImages(item.id).map(i => i.foto), index)"
-            />
-          </template>
-          <p v-else class="text-gray-500">Tidak ada foto tersedia untuk kegiatan ini.</p>
-        </div>
+        <h2 class="text-xl font-semibold mb-3">{{ item.nama }}</h2>
+        <template v-if="filteredKegiatanImages(item.id).length">
+          <div class="overflow-hidden">
+            <Swiper :slides-per-view="'auto'" :space-between="10" class="!w-full">
+              <SwiperSlide v-for="(img, index) in filteredKegiatanImages(item.id)" :key="img.id" class="!w-36">
+                <img :src="`/uploads/kegiatan/${img.foto}`" class="w-full h-32 object-cover rounded cursor-pointer"
+                  @click="openLightbox(filteredKegiatanImages(item.id).map(i => `/uploads/kegiatan/${i.foto}`), index)" />
+              </SwiperSlide>
+            </Swiper>
+          </div>
+        </template>
+        <p v-else class="text-gray-500">Tidak ada foto tersedia untuk kegiatan ini.</p>
       </div>
     </div>
 
     <!-- Lightbox -->
-    <Lightbox
-      :imgs="lightboxImages"
-      :index="lightboxIndex"
-      :visible="showLightbox"
-      @hide="showLightbox = false"
-    />
+    <Lightbox :imgs="lightboxImages" :index="lightboxIndex" :visible="showLightbox" @hide="showLightbox = false" />
   </div>
 </template>

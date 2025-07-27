@@ -63,7 +63,10 @@ class Pendaftar extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    public function spkNilai()
+    {
+        return $this->hasOne(SpkNilai::class);
+    }
     protected static function booted()
     {
         static::deleting(function ($pendaftar) {
