@@ -54,10 +54,10 @@ defineProps({
         items: [
           { 
             name: "VISI MISI", 
-            href: "http://localhost:8000/pages/landing-pages/visimisi" },
+            href: "http://localhost:8000/min/landing-pages/visimisi" },
           {
             name: "Sejarah Madrasah",
-            href: "http://localhost:8000/pages/landing-pages/sejarahsekolah"
+            href: "http://localhost:8000/min/landing-pages/sejarahsekolah"
           },
           {
             name: "Guru dan Tenaga Kependidikan",
@@ -74,7 +74,7 @@ defineProps({
         items: [
           {
             name: "Kontak Kami",
-            href: "http://localhost:8000/pages/landing-pages/contact-us"
+            href: "http://localhost:8000/min/landing-pages/contact-us"
           },
           {
             name: "development",

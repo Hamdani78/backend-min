@@ -34,13 +34,13 @@ return new class extends Migration
             $table->string('kecamatan')->nullable();
             $table->string('kelurahan')->nullable();
             $table->string('no_hp')->nullable();
-            $table->enum('tinggal_dengan', ['Orang Tua', 'Wali'])->nullable();
-            $table->enum('pembiaya', ['Orang Tua', 'Wali'])->nullable();
+            $table->string('tinggal_dengan')->nullable();
+            $table->string('pembiaya')->nullable();
             $table->string('jarak_ke_madrasah')->nullable();
             $table->string('kebutuhan_khusus')->nullable();
             $table->string('kebutuhan_disabilitas')->nullable();
             $table->json('imunisasi')->nullable(); 
-            $table->enum('pra_sekolah', ['TK/RA', 'PAUD'])->nullable();
+            $table->string('pra_sekolah')->nullable();
             $table->string('nama_pra_sekolah')->nullable();
             $table->string('kip_nama')->nullable();
             $table->string('kip_nomor')->nullable();

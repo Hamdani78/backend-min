@@ -1,103 +1,107 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
+import { usePage, router } from '@inertiajs/vue3'
+import logo from '../Landing/assets/img/ic_logo.png'
+const page = usePage()
+const errors = page.props.errors || {}
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-});
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
+const errorMessage = ref('')
+const csrf = page.props.csrf_token
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+onMounted(() => {
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.common['Accept'] = 'application/json'
+})
+
+const submitForm = async () => {
+    try {
+        await axios.post('/user/register', {
+            name: name.value,
+            email: email.value,
+            password: password.value,
+            _token: csrf,
+        })
+        router.visit('/user/login')
+    } catch (error) {
+        errorMessage.value = 'Registrasi gagal. Pastikan semua data benar dan email belum digunakan.'
+    }
+}
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+    <div class="min-h-screen flex">
+        <!-- Logo Section -->
+        <div class="hidden md:flex flex-col justify-center items-center bg-white px-4 py-5 w-1/2 rounded-br-[60px]">
+            <img :src="logo" alt="Logo" class="w-full max-w-md" />
+        </div>
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
+        <!-- Register Form -->
+        <div class="flex flex-col justify-center items-center bg-gray-100 w-full md:w-1/2 px-6">
+            <div class="w-full max-w-md">
+                <div class="text-center mb-4">
+                    <h2 class="font-bold text-xl">SISTEM PPDB</h2>
+                    <p class="text-gray-600">Daftar untuk membuat akun</p>
+                </div>
 
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
+                <div class="bg-white rounded shadow p-6">
+                    <h3 class="text-center font-bold text-lg mb-4">Form Registrasi</h3>
+                    <form @submit.prevent="submitForm">
+                        <!-- Nama -->
+                        <div class="mb-4">
+                            <label class="block mb-1">Nama Lengkap</label>
+                            <input v-model="name" type="text" class="w-full border rounded p-2" required />
+                            <div v-if="errors.name" class="text-red-600 text-sm mt-1">{{ errors.name[0] }}</div>
+                        </div>
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                        <!-- Email -->
+                        <div class="mb-4">
+                            <label class="block mb-1">Email</label>
+                            <input v-model="email" type="email" class="w-full border rounded p-2" required />
+                            <div v-if="errors.email" class="text-red-600 text-sm mt-1">{{ errors.email[0] }}</div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-4 relative">
+                            <label class="block mb-1">Password</label>
+                            <input :type="showPassword ? 'text' : 'password'" v-model="password"
+                                class="w-full border rounded p-2 pr-10" required />
+                            <button type="button" @click="showPassword = !showPassword"
+                                class="absolute top-8 right-3 text-gray-500">
+                                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                            </button>
+                            <div v-if="errors.password" class="text-red-600 text-sm mt-1">{{ errors.password[0] }}</div>
+                        </div>
+
+
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">
+                            Daftar
+                        </button>
+
+                        <p class="text-sm text-center mt-4">
+                            Sudah punya akun?
+                            <a href="/user/login" class="text-blue-600 hover:underline">Masuk di sini</a>
+                        </p>
+
+                        <div v-if="errorMessage" class="text-red-600 text-sm text-center mt-2">
+                            {{ errorMessage }}
+                        </div>
+                    </form>
+                </div>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+        </div>
+    </div>
 </template>
+
+<style scoped>
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+</style>

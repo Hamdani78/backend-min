@@ -13,7 +13,7 @@ class Authenticate extends Middleware
             if ($request->is('admin') || $request->is('admin/*')) {
                 return route('admin.login');
             }
-            return route('login'); // default untuk user biasa
+            return route('user.login');
         }
 
         return null;

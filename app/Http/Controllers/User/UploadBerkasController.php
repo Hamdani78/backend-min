@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pendaftaran;
 use Illuminate\Http\Request;
 
-class PendaftaranController extends Controller
+class UploadBerkasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +34,7 @@ class PendaftaranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pendaftaran $pendaftaran)
+    public function show(string $id)
     {
         //
     }
@@ -43,7 +42,7 @@ class PendaftaranController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pendaftaran $pendaftaran)
+    public function edit(string $id)
     {
         //
     }
@@ -51,7 +50,7 @@ class PendaftaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pendaftaran $pendaftaran)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -59,7 +58,7 @@ class PendaftaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pendaftaran $pendaftaran)
+    public function destroy(string $id)
     {
         //
     }

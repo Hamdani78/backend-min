@@ -19,50 +19,48 @@ const router = createRouter({
       component: PresentationView,
     },
     {
-      path: "/pages/visimisi",
+      path: "/min/visimisi",
       name: "visimisi",
       component: VisimisiView,
     },
     {
-      path: "/pages/contact-us",
+      path: "/min/contact-us",
       name: "contactus",
       component: ContactView,
     },
     {
-      path: "/pages/sejarahsekolah",
+      path: "/min/sejarahsekolah",
       name: "sejarah",
       component: SejarahView,
     },
     // {
-    //   path: "/pages/landing-pages/basic",
+    //   path: "/min/landing-min/basic",
     //   name: "signin-basic",
     //   component: SignInBasicView,
     // },
 
-    // sampai sini
-
     {
-      path: "/pages/pegawai",
+      path: "/min/pegawai",
       name: "pegawai",
       component: PegawaiView,
     },
     {
-      path: "/page/siswa",
+      path: "/min/siswa",
       name: "siswa",
       component: SiswaView,
     },
     {
-      path: "/page/fasilitas",
+      path: "/min/fasilitas",
       name: "fasilitas",
       component: FasilitasView,
     },
     {
-      path: "/page/kegiatan",
+      path: "/min/kegiatan",
       name: "kegiatan",
       component: KegiatanView,
     },
     {
-      path: "/page/pendaftran-peserta-didik-baru",
+      path: "/min/pendaftaran-peserta-didik-baru",
       name: "ppdb",
       component: PPDBView,
     },

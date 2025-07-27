@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Pendaftar extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'nama',
+        'user_id',
         'tempat_lahir',
         'tanggal_lahir',
         'no_kk',
@@ -52,5 +53,26 @@ class Pendaftar extends Model
     public function wali()
     {
         return $this->hasOne(Wali::class);
+    }
+
+    public function berkas()
+    {
+        return $this->hasOne(BerkasPendaftaran::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($pendaftar) {
+            if ($pendaftar->berkas) {
+                $pendaftar->berkas->delete();
+            }
+
+            $pendaftar->orangTuas()->delete();
+            $pendaftar->wali()->delete();
+        });
     }
 }
