@@ -68,5 +68,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'disablebackbtn' => \App\Http\Middleware\DisableBackBtn::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+        'pendaftaran.exists' => \App\Http\Middleware\EnsurePendaftaranExists::class,
     ];
 }

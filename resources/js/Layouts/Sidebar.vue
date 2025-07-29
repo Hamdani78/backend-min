@@ -26,6 +26,7 @@
       <SidebarSection icon="fas fa-table" label="PPDB" v-model:open="openPPDB">
         <NavLink href="/admin/pendaftar" label="Pendaftar" icon="far fa-circle" />
         <NavLink href="/admin/berkas-pendaftaran" label="Berkas" icon="far fa-circle" />
+        <NavLink href="/admin/daftar-ulang" label="Daftar Ulang" icon="far fa-circle" />
         <NavLink href="/admin/spk" label="SPK" icon="far fa-circle" />
       </SidebarSection>
 

@@ -42,7 +42,8 @@ class Pendaftar extends Model
         'nama_pra_sekolah',
         'kip_nama',
         'kip_nomor',
-        'foto'
+        'foto',
+        'status_pendaftaran'
     ];
 
     public function orangTuas()
@@ -67,6 +68,18 @@ class Pendaftar extends Model
     {
         return $this->hasOne(SpkNilai::class);
     }
+
+    public function daftarUlang()
+    {
+        return $this->hasOne(DaftarUlang::class);
+    }
+
+    protected $casts = [
+        'imunisasi' => 'array',
+        'orang_tuas' => 'array',
+        'wali' => 'array',
+    ];
+
     protected static function booted()
     {
         static::deleting(function ($pendaftar) {

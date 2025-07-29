@@ -22,7 +22,7 @@ import ImagePoster from "../../../assets/img/min/poster.jpg";
             <p class="lead text-white opacity-8">
               Untuk informasi lengkapnya dapat dilihat pada laman PPDB kami.
             </p>
-            <a href="http://localhost:8000/min/pendaftran-peserta-didik-baru" class="text-white icon-move-right">
+            <a href="/min/pendaftaran-peserta-didik-baru" class="text-white icon-move-right">
               Info Selengkapnya
               <i class="fas fa-arrow-right text-sm ms-1"></i>
             </a>

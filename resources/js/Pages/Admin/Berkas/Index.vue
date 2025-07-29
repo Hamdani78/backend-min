@@ -11,9 +11,9 @@
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold">Data Berkas Pendaftaran</h3>
           <Link :href="route('berkas-pendaftaran.create')">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-              <i class="fa fa-plus mr-2"></i> Upload
-            </button>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            <i class="fa fa-plus mr-2"></i> Upload
+          </button>
           </Link>
         </div>
 
@@ -25,6 +25,7 @@
               <th class="px-4 py-2 border">Akte</th>
               <th class="px-4 py-2 border">Kartu Keluarga</th>
               <th class="px-4 py-2 border">KIP</th>
+              <th class="px-4 py-2 border">Status</th>
               <th class="px-4 py-2 border">Aksi</th>
             </tr>
           </thead>
@@ -33,65 +34,64 @@
               <td class="px-4 py-2 border">{{ item.pendaftar?.nama ?? '-' }}</td>
 
               <td class="px-4 py-2 border">
-                <a
-                  v-if="item.ijazah_tk"
-                  :href="`/storage/${item.ijazah_tk}`"
-                  target="_blank"
-                  class="text-blue-600 hover:underline"
-                >
+                <a v-if="item.ijazah_tk" :href="`/storage/${item.ijazah_tk}`" target="_blank"
+                  class="text-blue-600 hover:underline">
                   Lihat
                 </a>
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
 
               <td class="px-4 py-2 border">
-                <a
-                  v-if="item.akte_kelahiran"
-                  :href="`/storage/${item.akte_kelahiran}`"
-                  target="_blank"
-                  class="text-blue-600 hover:underline"
-                >
+                <a v-if="item.akte_kelahiran" :href="`/storage/${item.akte_kelahiran}`" target="_blank"
+                  class="text-blue-600 hover:underline">
                   Lihat
                 </a>
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
 
               <td class="px-4 py-2 border">
-                <a
-                  v-if="item.kartu_keluarga"
-                  :href="`/storage/${item.kartu_keluarga}`"
-                  target="_blank"
-                  class="text-blue-600 hover:underline"
-                >
+                <a v-if="item.kartu_keluarga" :href="`/storage/${item.kartu_keluarga}`" target="_blank"
+                  class="text-blue-600 hover:underline">
                   Lihat
                 </a>
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
 
               <td class="px-4 py-2 border">
-                <a
-                  v-if="item.kip"
-                  :href="`/storage/${item.kip}`"
-                  target="_blank"
-                  class="text-blue-600 hover:underline"
-                >
+                <a v-if="item.kip" :href="`/storage/${item.kip}`" target="_blank" class="text-blue-600 hover:underline">
                   Lihat
                 </a>
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
+              <td class="px-4 py-2 border">
+                <!-- Verifikasi -->
+                <button v-if="item.pendaftar?.status_pendaftaran === 'berkas'"
+                  @click="ubahStatus(item.pendaftar.id, 'wawancara')"
+                  class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
+                  Set Wawancara
+                </button>
+
+                <button v-if="item.pendaftar?.status_pendaftaran === 'wawancara'"
+                  @click="ubahStatus(item.pendaftar.id, 'verifikasi')"
+                  class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
+                  Tandai Selesai Wawancara
+                </button>
+
+                <button v-if="item.pendaftar?.status_pendaftaran === 'verifikasi'"
+                  @click="ubahStatus(item.pendaftar.id, 'selesai')"
+                  class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                  Tandai Selesai
+                </button>
+
+              </td>
 
               <td class="px-4 py-2 border">
-                <div class="flex gap-2">
-                  <Link
-                    :href="route('berkas-pendaftaran.edit', item.id)"
-                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded"
-                  >
-                    <i class="fa fa-edit"></i>
+                <div class="flex gap-2 flex-wrap">
+                  <Link :href="route('berkas-pendaftaran.edit', item.id)"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded">
+                  <i class="fa fa-edit"></i>
                   </Link>
-                  <button
-                    @click="hapus(item.id)"
-                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-                  >
+                  <button @click="hapus(item.id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
                     <i class="fa fa-trash"></i>
                   </button>
                 </div>
@@ -114,6 +114,33 @@ const props = defineProps({
 })
 
 const flashSuccess = computed(() => usePage().props.value?.flash?.success)
+function konfirmasiVerifikasi(pendaftarId) {
+  if (confirm('Yakin ingin memverifikasi berkas ini?')) {
+    router.post(route('admin.berkas.verifikasi', pendaftarId), {}, {
+      onSuccess: () => {
+      }
+    })
+  }
+}
+function ubahStatus(id, status) {
+  if (confirm(`Yakin ingin mengubah status ke ${status}?`)) {
+    router.post(route('admin.pendaftar.status.update', id), {
+      status: status
+    })
+  }
+}
+
+function setWawancara(id) {
+  if (confirm('Set status ke Wawancara?')) {
+    router.post(route('admin.berkas.wawancara', id));
+  }
+}
+
+function verifikasiSetelahWawancara(id) {
+  if (confirm('Tandai sudah selesai wawancara dan lanjut ke verifikasi?')) {
+    router.post(route('admin.berkas.selesai-wawancara', id));
+  }
+}
 
 function hapus(id) {
   if (confirm('Yakin ingin menghapus berkas ini?')) {

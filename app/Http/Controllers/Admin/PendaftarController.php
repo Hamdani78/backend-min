@@ -65,7 +65,8 @@ class PendaftarController extends Controller
             'nama_pra_sekolah' => 'required|string|max:100',
             'kip_nama' => 'nullable|string',
             'kip_nomor' => 'nullable|string',
-            'foto' => $request->hasFile('foto') ? 'image|mimes:jpg,jpeg,png|max:4086' : 'nullable',
+            'foto' => $request->hasFile('foto') ? 'image|mimes:jpg,jpeg,png|max:5120' : 'nullable',
+            'imunisasi' => 'nullable|array',
         ]);
 
         DB::transaction(function () use ($request, $validated) {
@@ -147,7 +148,8 @@ class PendaftarController extends Controller
             'nama_pra_sekolah' => 'required|string|max:100',
             'kip_nama' => 'nullable|string',
             'kip_nomor' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:4086',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+            'imunisasi' => 'nullable|array',
         ]);
 
         DB::transaction(function () use ($pendaftar, $validated, $request) {

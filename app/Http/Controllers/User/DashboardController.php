@@ -3,18 +3,27 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-
+        $user = auth()->user();
         if ($user->role === 'kepsek') {
-            return inertia('User/KepsekDashboard');
+            return Inertia::render('User/KepsekDashboard', [
+                'auth' => ['user' => $user],
+            ]);
         }
 
-        return inertia('User/PendaftarDashboard');
+        $pendaftar = $user->pendaftar;
+        $berkas = $pendaftar?->berkas;
+
+        return Inertia::render('User/PendaftarDashboard', [
+            'auth' => ['user' => $user],
+            'pendaftar' => $pendaftar,
+            'berkas' => $berkas,
+            'statusPendaftaran' => $pendaftar?->status_pendaftaran,
+        ]);
     }
 }

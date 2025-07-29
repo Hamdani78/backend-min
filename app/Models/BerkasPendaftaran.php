@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Storage;
 
 class BerkasPendaftaran extends Model
 {
+    public function berkas()
+    {
+        return $this->hasOne(\App\Models\BerkasPendaftaran::class);
+    }
     protected $table = 'berkas_pendaftarans';
 
     protected $fillable = [

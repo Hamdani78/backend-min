@@ -10,8 +10,8 @@
 
       <SidebarSection icon="fas fa-folder" label="Formulir" v-model:open="openForm">
         <NavLink href="/user/pendaftaran" icon="far fa-circle" label="Data Diri" />
-        <NavLink href="/user/uploadberkas" icon="far fa-circle" label="Upload Berkas" />
-        <NavLink href="/user/daftarulang" icon="far fa-circle" label="Daftar Ulang" />
+        <NavLink href="/user/upload-berkas" icon="far fa-circle" label="Upload Berkas" />
+        <NavLink href="/user/daftar-ulang" icon="far fa-circle" label="Daftar Ulang" />
         <NavLink href="/user/pengumuman" icon="far fa-circle" label="Pengumuman" />
       </SidebarSection>
 

@@ -11,7 +11,7 @@ class OrangTua extends Model
     
     protected $fillable = [
         'pendaftar_id',
-        'tipe', // 'Ayah' atau 'Ibu'
+        'tipe', 
         'nama',
         'status',
         'nik',

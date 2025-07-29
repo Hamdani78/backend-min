@@ -38,7 +38,7 @@ class BerkasPendaftaranController extends Controller
                 'ijazah_tk' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 'akte_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 'kartu_keluarga' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-                'kip' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'kip' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
             $pendaftar = \App\Models\Pendaftar::find($request->pendaftar_id);
@@ -50,7 +50,7 @@ class BerkasPendaftaranController extends Controller
             if (BerkasPendaftaran::where('pendaftar_id', $pendaftar->id)->exists()) {
                 return back()->withErrors(['error' => 'Berkas sudah pernah diunggah.']);
             }
-            // Simpan file dan log path-nya
+
             $data = [
                 'pendaftar_id' => $pendaftar->id,
                 'ijazah_tk' => $request->file('ijazah_tk')->store('berkas/ijazah', 'public'),
@@ -63,11 +63,11 @@ class BerkasPendaftaranController extends Controller
             }
 
             $berkas = BerkasPendaftaran::create($data);
-            Log::info('✅ Berkas berhasil disimpan!', ['id' => $berkas->id]);
+            Log::info('Berkas berhasil disimpan!', ['id' => $berkas->id]);
 
             return redirect()->route('berkas-pendaftaran.index')->with('success', 'Berkas berhasil ditambahkan.');
         } catch (\Exception $e) {
-            Log::error('❌ Gagal menyimpan data berkas:', ['msg' => $e->getMessage()]);
+            Log::error('Gagal menyimpan data berkas:', ['msg' => $e->getMessage()]);
             return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
     }
@@ -87,7 +87,7 @@ class BerkasPendaftaranController extends Controller
             'ijazah_tk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'akte_kelahiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'kartu_keluarga' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'kip' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'kip' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         if ($request->hasFile('ijazah_tk')) {
@@ -118,16 +118,18 @@ class BerkasPendaftaranController extends Controller
     }
 
 
-    public function destroy(BerkasPendaftaran $berkas)
+    public function destroy(BerkasPendaftaran $berkas_pendaftaran)
     {
+        Log::info('Memanggil fungsi destroy', ['id' => $berkas_pendaftaran->id]);
+
         Storage::disk('public')->delete(array_filter([
-            $berkas->ijazah_tk,
-            $berkas->akte_kelahiran,
-            $berkas->kartu_keluarga,
-            $berkas->kip,
+            $berkas_pendaftaran->ijazah_tk,
+            $berkas_pendaftaran->akte_kelahiran,
+            $berkas_pendaftaran->kartu_keluarga,
+            $berkas_pendaftaran->kip,
         ]));
 
-        $berkas->delete();
+        $berkas_pendaftaran->delete();
 
         return back()->with('success', 'Berkas berhasil dihapus.');
     }
