@@ -76,13 +76,6 @@
                   class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
                   Tandai Selesai Wawancara
                 </button>
-
-                <button v-if="item.pendaftar?.status_pendaftaran === 'verifikasi'"
-                  @click="ubahStatus(item.pendaftar.id, 'selesai')"
-                  class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                  Tandai Selesai
-                </button>
-
               </td>
 
               <td class="px-4 py-2 border">

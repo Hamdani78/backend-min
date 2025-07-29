@@ -32,7 +32,9 @@
                         <td class="border px-4 py-2">{{ item.deskripsi }}</td>
                         <td class="border px-4 py-2">
                             <Link :href="route('kegiatanimage.index', { kegiatanId: item.id })">
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded">Tambah Foto</button>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                                <i class="fa fa-image mr-1"></i> Tambah Foto
+                            </button>
                             </Link>
                         </td>
                         <td class="border px-4 py-2 space-x-2">

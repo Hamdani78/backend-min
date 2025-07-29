@@ -4,7 +4,14 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // ========== LANDING ==========
-Route::get('/', fn() => view('landing'));
+Route::get('/', function () {
+    return view('landing');
+});
+
+Route::get('/min/{any}', function () {
+    return view('landing'); 
+})->where('any', '.*');
+
 
 // ========== USER AUTH ==========
 use App\Http\Controllers\User\UserController;
@@ -86,3 +93,9 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/daftar-ulang', [\App\Http\Controllers\Admin\DaftarUlangController::class, 'index'])->name('admin.daftar-ulang.index');
     Route::post('/daftar-ulang/{id}/verifikasi', [\App\Http\Controllers\Admin\DaftarUlangController::class, 'verifikasi'])->name('admin.daftar-ulang.verifikasi');
 });
+
+// ========== LANDING PAGES ==========
+Route::get('/landing/fasilitas', [\App\Http\Controllers\Landing\FasilitasLandingController::class, 'index']);
+Route::get('/landing/kegiatan', [\App\Http\Controllers\Landing\KegiatanLandingController::class, 'index']);
+Route::get('/landing/pegawai', [\App\Http\Controllers\Landing\PegawaiLandingController::class, 'index']);
+

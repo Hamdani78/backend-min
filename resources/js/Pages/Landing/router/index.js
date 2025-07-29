@@ -33,17 +33,18 @@ const router = createRouter({
       name: "sejarah",
       component: SejarahView,
     },
-    // {
-    //   path: "/min/landing-min/basic",
-    //   name: "signin-basic",
-    //   component: SignInBasicView,
-    // },
 
     {
       path: "/min/pegawai",
       name: "pegawai",
       component: PegawaiView,
     },
+    // {
+    //   path: "/min/pegawai/:id",
+    //   name: "pegawai.detail",
+    //   component: DetailPegawai,
+    //   props: true,
+    // },
     {
       path: "/min/siswa",
       name: "siswa",

@@ -9,10 +9,10 @@ class Kegiatan extends Model
 {
     use HasFactory;
 
-    protected $fillable= ['nama', 'deskripsi'];
+    protected $fillable = ['nama', 'deskripsi'];
 
     public function images()
     {
-        return $this->hasMany(KegiatanImages::class);
+        return $this->hasMany(KegiatanImages::class, 'kegiatans_id');
     }
 }
