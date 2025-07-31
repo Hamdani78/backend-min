@@ -1,21 +1,12 @@
 <script setup>
-import FooterCentered from "../../../examples/footers/FooterCentered.vue";
-import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
-import FilledInfoCard from "../../../examples/cards/infoCards/FilledInfoCard.vue"
-
-//import sections
-import Information from "./Sections/Informations.vue";
-import HeaderView from "./Sections/Header.vue";
+import FooterCentered from "../../../examples/footers/FooterCentered.vue"
+import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue"
+import HeaderView from "../PPDB/Sections/HeaderView.vue"
+import AlurPPDBOnline from '../PPDB/Sections/AlurPPDBOnline.vue'
 
 // Dapatkan tahun saat ini dan tahun berikutnya
-const currentYear = new Date().getFullYear();
-const nextYear = currentYear + 1;
-</script>
-
-<script>
-export default {
-  inheritAttrs: false,
-};
+const currentYear = new Date().getFullYear()
+const nextYear = currentYear + 1
 </script>
 
 <template>
@@ -24,74 +15,84 @@ export default {
     <div class="container position-sticky z-index-sticky top-0">
       <div class="row">
         <div class="col-12">
-          <DefaultNavbar
-            :sticky="true"
-            :action="{
-              route: '',
-              color: 'bg-gradient-success',
-              label: 'Buy Now',
-            }"
-          />
+          <DefaultNavbar :sticky="true" :action="{
+            route: '',
+            color: 'bg-gradient-success',
+            label: 'PPDB',
+          }" />
         </div>
       </div>
     </div>
 
-    <!-- Konten Utama -->
-    <section class="my-5 py-5">
-      <div class="container">
-        <HeaderView />
-        <Information />
-        <!-- <PosterView /> -->
+    <!-- Judul PPDB -->
+    <section class="my-5 py-5 flex flex-col gap-10">
+
+      <HeaderView class="text-center" />
+
+      <!-- Kotak Informasi -->
+      <div class="d-flex flex-wrap justify-content-center gap-4 px-3">
+        <!-- Syarat Pendaftaran -->
+        <div class="bg-white shadow rounded p-4 w-64 text-center">
+          <strong class="d-block mb-2">Syarat Pendaftaran</strong>
+          <ul class="text-start text-sm">
+            <li>Fotocopy Ijazah TK (2 lembar)</li>
+            <li>Fotocopy Akte Kelahiran (2 lembar)</li>
+            <li>Fotocopy KK (2 lembar)</li>
+            <li>Fotocopy KIP (jika ada)</li>
+          </ul>
+        </div>
+
+        <!-- Syarat Lainnya -->
+        <div class="bg-white shadow rounded p-4 w-64 text-center border border-primary">
+          <strong class="d-block mb-2">Syarat Lainnya</strong>
+          <ul class="text-start text-sm">
+            <li>Usia 6 tahun (dengan ijazah TK)</li>
+            <li>Usia 6 tahun 6 bulan (tanpa ijazah)</li>
+            <li>Kenal huruf, angka, hijaiyah</li>
+            <li>Mengisi formulir panitia</li>
+          </ul>
+        </div>
+
+        <!-- Waktu Pendaftaran -->
+        <div class="bg-white shadow rounded p-4 w-64 text-center">
+          <strong class="d-block mb-2">Waktu Pendaftaran</strong>
+          <p class="text-sm">
+            Mulai 1 Februari 2024<br />
+            Sampai kuota penuh<br />
+            Pukul 08.00 – 16.00 WIB<br />
+            Daftar ulang 22 Juni 2024
+          </p>
+        </div>
+
+        <!-- Informasi Lain -->
+        <div class="bg-white shadow rounded p-4 w-64 text-center">
+          <strong class="d-block mb-2">Informasi</strong>
+          <p class="text-sm">
+            Sistem Full Day<br />
+            Senin–Kamis: 07.00–16.00<br />
+            Jumat: 07.00–11.30
+          </p>
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-center gap-4 px-3">
+        <AlurPPDBOnline />
+      </div>
+
+
+      <!-- Tombol Daftar -->
+      <div class="text-end mt-5 pe-5">
+        <a :href="route('user.login')" class="btn btn-primary">Daftar Sekarang!</a>
       </div>
     </section>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <FilledInfoCard
-            class="p-4"
-            :color="{ text: 'white', background: 'bg-gradient-success' }"
-            :icon="{ component: 'flag', color: 'white' }"
-            title="Getting Started"
-            description="Check the possible ways of working with our product and the necessary files for building your own project."
-            :action="{
-              route:
-                'https://www.creative-tim.com/learning-lab/vue/overview/material-kit/',
-              label: { text: 'Let\'s start', color: 'white' }
-            }"
-          />
-        </div>
-        <div class="col-lg-4">
-          <FilledInfoCard
-            class="px-lg-1 mt-lg-0 mt-4 p-4"
-            height="h-100"
-            :icon="{ component: 'precision_manufacturing', color: 'success' }"
-            title="Plugins"
-            description="Get inspiration and have an overview about the plugins that we
-                used to create the Material Kit."
-            :action="{
-              route:
-                'https://www.creative-tim.com/learning-lab/vue/input/material-kit/',
-              label: { text: 'Read more' }
-            }"
-          />
-        </div>
-        <div class="col-lg-4">
-          <FilledInfoCard
-            class="px-lg-1 mt-lg-0 mt-4 p-4"
-            :icon="{ component: 'receipt_long', color: 'success' }"
-            title="Utility Classes"
-            description="Material Kit is giving you a lot of pre-made elements. For those
-                who want flexibility, we included many utility classes."
-            :action="{
-              route:
-                'https://www.creative-tim.com/learning-lab/vue/utilities/material-kit/',
-              label: { text: 'Read more' }
-            }"
-          />
-        </div>
-      </div>
-    </div>
+
     <!-- Footer -->
     <FooterCentered />
   </div>
 </template>
+
+<style scoped>
+.w-64 {
+  width: 16rem;
+}
+</style>

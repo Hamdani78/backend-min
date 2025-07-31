@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Pendaftar;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PendaftaranController extends Controller
 {
@@ -19,6 +21,25 @@ class PendaftaranController extends Controller
         }
 
         return inertia('User/Pendaftaran/Formulir');
+    }
+
+    public function show()
+    {
+        $user = auth()->user();
+        $pendaftar = $user->pendaftar->load(['orangTuas', 'wali']);
+
+        return Inertia::render('User/Pendaftaran/Detail', [
+            'pendaftar' => $pendaftar,
+        ]);
+    }
+
+    public function edit()
+    {
+        $pendaftar = auth()->user()->pendaftar->load(['orangTuas', 'wali']);
+
+        return Inertia::render('User/Pendaftaran/Edit', [
+            'pendaftar' => $pendaftar,
+        ]);
     }
 
     public function store(Request $request)
@@ -56,6 +77,7 @@ class PendaftaranController extends Controller
             'kip_nomor' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:4086',
             'imunisasi' => 'nullable|array',
+            'imunisasi.*' => 'string',
         ]);
 
         if ($request->hasFile('foto')) {
@@ -67,32 +89,17 @@ class PendaftaranController extends Controller
 
         $pendaftar = Pendaftar::create($validated);
 
-        // Simpan orang tua
         if ($request->has('orang_tuas')) {
             foreach ($request->input('orang_tuas') as $orangTuaData) {
                 $pendaftar->orangTuas()->create($orangTuaData);
             }
         }
 
-        // Simpan wali jika ada
         if ($request->filled('wali')) {
             $pendaftar->wali()->create($request->input('wali'));
         }
 
         return redirect()->route('user.dashboard')->with('status', 'Pendaftaran berhasil dikirim.');
-    }
-
-    public function show()
-    {
-        $user = auth()->user();
-        $pendaftar = $user->pendaftar->load(['orangTuas', 'wali']);
-        return Inertia::render('User/Pendaftaran/Detail', ['pendaftar' => $pendaftar]);
-    }
-
-    public function edit()
-    {
-        $pendaftar = auth()->user()->pendaftar->load(['orangTuas', 'wali']);
-        return Inertia::render('User/Pendaftaran/Edit', ['pendaftar' => $pendaftar]);
     }
 
     public function update(Request $request)
@@ -132,18 +139,15 @@ class PendaftaranController extends Controller
             'kip_nomor' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:4086',
             'imunisasi' => 'nullable|array',
+            'imunisasi.*' => 'string',
         ]);
 
-        // Handle foto baru (jika diunggah)
         if ($request->hasFile('foto')) {
             if ($pendaftar->foto && Storage::disk('public')->exists($pendaftar->foto)) {
                 Storage::disk('public')->delete($pendaftar->foto);
             }
             $validated['foto'] = $request->file('foto')->store('foto_pendaftar', 'public');
         }
-
-        // Encode imunisasi array
-        $validated['imunisasi'] = json_encode($validated['imunisasi'] ?? []);
 
         $pendaftar->update($validated);
 
@@ -158,5 +162,21 @@ class PendaftaranController extends Controller
         }
 
         return redirect()->route('user.pendaftaran.show')->with('success', 'Data berhasil diperbarui.');
+    }
+
+    public function cetakBukti()
+    {
+        $user = auth()->user();
+        $pendaftar = $user->pendaftar;
+
+        if (!$pendaftar) {
+            abort(404, 'Data pendaftar tidak ditemukan.');
+        }
+
+        $pdf = Pdf::loadView('pdf.bukti-pendaftaran', compact('pendaftar'));
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->stream();
+        }, 'bukti-pendaftaran.pdf');
     }
 }

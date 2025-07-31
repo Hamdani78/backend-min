@@ -18,19 +18,21 @@
             <td class="p-2 border">
               <a :href="`/storage/${item.file_surat}`" target="_blank" class="text-blue-600 underline">Lihat</a>
             </td>
-            <td class="p-2 border">
-              <span v-if="item.status === 'dikirim'" class="text-orange-500">Menunggu</span>
-              <span v-else class="text-green-600">Diverifikasi</span>
-            </td>
             <td class="p-2 border space-x-2">
-              <button v-if="item.status === 'dikirim'" @click="verifikasi(item.id)"
-                class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">
+              <button v-if="item.status === 'dikirim'" @click="verifikasi(item.id)" :disabled="loadingId === item.id"
+                class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 disabled:opacity-50">
                 Verifikasi
               </button>
-              <button v-if="item.status === 'diverifikasi'" @click="selesaikan(item.pendaftar_id)"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+
+              <button v-else-if="item.status === 'diverifikasi' && item.pendaftar?.status_pendaftaran !== 'selesai'"
+                @click="selesaikan(item.id)" :disabled="loadingId === item.id"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded disabled:opacity-50">
                 Tandai Selesai
               </button>
+
+              <span v-else-if="item.pendaftar?.status_pendaftaran === 'selesai'" class="text-green-700 font-semibold">
+                Selesai
+              </span>
             </td>
           </tr>
         </tbody>
@@ -62,12 +64,10 @@ function verifikasi(id) {
 function selesaikan(id) {
   if (confirm('Yakin ingin menandai pendaftar ini sebagai selesai?')) {
     loadingId.value = id
-    router.post(route('admin.pendaftar.status.update', id), {
-      status: 'selesai'
-    }, {
+    router.post(route('admin.daftar-ulang.selesai', id), {}, {
       onFinish: () => loadingId.value = null
     })
   }
 }
-</script>
 
+</script>

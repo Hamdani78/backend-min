@@ -83,12 +83,12 @@ class SpkController extends Controller
                 (($wawancara / $maks['wawancara']) * $bobot['wawancara']);
 
             $hasil[] = [
+                'id' => $d->id, 
                 'nama' => $d->nama,
                 'nilai' => round($v, 4),
                 'status' => $v >= 0.6 ? 'Lulus' : 'Tidak Lulus'
             ];
         }
-        // Sort descending berdasarkan nilai
         usort($hasil, fn($a, $b) => $b['nilai'] <=> $a['nilai']);
 
         return response()->json($hasil);
@@ -104,5 +104,32 @@ class SpkController extends Controller
     {
         $data = $this->proses()->getData();
         return Excel::download(new SpkExport($data), 'hasil_spk.xlsx');
+    }
+
+    public function terapkanHasil()
+    {
+        $peringkat = session('hasil_spk');
+        if (!$peringkat) {
+            return back()->with('error', 'Tidak ada data SPK untuk diterapkan.');
+        }
+
+        foreach ($peringkat as $item) {
+            $pendaftar = \App\Models\Pendaftar::find($item['id']);
+            if ($pendaftar) {
+                $status = $item['nilai'] >= 0.6 ? 'lulus' : 'tidak_lulus';
+                $pendaftar->update([
+                    'nilai_spk' => $item['nilai'],
+                    'status_lulus' => $status,
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Hasil SPK berhasil diterapkan ke database.');
+    }
+
+    public function simpanKeSession(Request $request)
+    {
+        session(['hasil_spk' => $request->input('data')]);
+        return response()->json(['message' => 'Hasil SPK disimpan ke session.']);
     }
 }

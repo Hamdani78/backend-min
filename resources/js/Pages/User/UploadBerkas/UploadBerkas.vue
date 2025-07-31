@@ -41,9 +41,8 @@ import { router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 const page = usePage()
-const pendaftar = page.props.pendaftar 
+const pendaftar = page.props.pendaftar
 
-const form = ref({})
 const files = ref({
   ijazah_tk: null,
   akte_kelahiran: null,
@@ -51,11 +50,16 @@ const files = ref({
   kip: null,
 })
 
+const isSubmitting = ref(false)
+
 function handle(e, key) {
   files.value[key] = e.target.files[0]
 }
 
 function submit() {
+  if (isSubmitting.value) return
+  isSubmitting.value = true
+
   const formData = new FormData()
   formData.append('pendaftar_id', pendaftar.id)
 
@@ -65,6 +69,10 @@ function submit() {
     }
   }
 
-  router.post(route('user.berkas.store'), formData)
+  router.post(route('user.berkas.store'), formData, {
+    onSuccess: () => {
+      router.visit(route('user.berkas.show'))
+    }
+  })
 }
 </script>

@@ -3,14 +3,12 @@ import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
 import CenteredFooter from "../../../examples/footers/FooterCentered.vue";
 
 defineProps({
+  title: String,
   breadcrumb: {
     type: Array,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
+    required: false, 
+    default: () => [],
+  }
 });
 </script>
 <template>

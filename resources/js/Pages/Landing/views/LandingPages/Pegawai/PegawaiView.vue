@@ -22,35 +22,36 @@
         </div>
 
         <!-- Grid Pegawai -->
-        <div class="row justify-content-center">
-          <div v-for="item in pegawai" :key="item.id"
-            class="col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center">
-            <div class="card shadow-sm d-flex flex-column h-100 px-3 py-3"
+        <div class="d-flex flex-wrap justify-content-center px-2">
+          <div v-for="item in pegawai" :key="item.id" class="m-3"
+            style="flex: 0 0 20%; max-width: 20%; min-width: 200px;">
+            <div class="card text-center shadow-sm h-100 d-flex flex-column justify-content-between"
               style="border: 1px solid #ffa726; border-radius: 12px;">
               <!-- Foto -->
-              <img :src="`/storage/pegawai/${item.foto}`" alt="Foto Pegawai" class="mx-auto mb-3"
+              <img :src="`/storage/pegawai/${item.foto}`" alt="Foto Pegawai" class="mx-auto mt-3"
                 style="width: 120px; height: 160px; object-fit: cover; border-radius: 6px;" />
 
               <!-- Data -->
-              <div class="flex-grow-1 text-start">
+              <div class="px-3 mt-3 text-start" style="flex-grow: 1;">
                 <p class="mb-1 text-secondary" style="font-size: 14px;">
-                  <strong>Nama</strong> :  {{ item.nama }}
+                  <strong>Nama</strong> : {{ item.nama }}
                 </p>
                 <p class="mb-1 text-secondary" style="font-size: 14px;">
-                  <strong>NIP</strong> :  {{ item.nip || '-' }}
+                  <strong>NIP</strong> : {{ item.nip || '-' }}
                 </p>
               </div>
 
               <!-- Tombol Detail -->
-              <div class="d-flex justify-content-end mt-2">
+              <div class="pb-3 px-3 text-end">
                 <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal"
                   @click="openModal(item)">
-                  <i class="fas fa-address-card fa-lg"></i>
+                  <i class="fas fa-address-card fa-sm me-1"></i> 
                 </button>
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 

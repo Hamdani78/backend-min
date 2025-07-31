@@ -80,7 +80,7 @@ function filteredKegiatanImages(id) {
           <div class="overflow-hidden">
             <Swiper :slides-per-view="'auto'" :space-between="10" class="!w-full">
               <SwiperSlide v-for="(img, index) in filteredKegiatanImages(item.id)" :key="img.id" class="!w-36">
-                <img :src="`/uploads/kegiatan/${img.foto}`" class="w-full h-32 object-cover rounded cursor-pointer"
+                <img :src="`/${img.foto}`" class="w-full h-32 object-cover rounded cursor-pointer"
                   @click="openLightbox(filteredKegiatanImages(item.id).map(i => `/uploads/kegiatan/${i.foto}`), index)" />
               </SwiperSlide>
             </Swiper>

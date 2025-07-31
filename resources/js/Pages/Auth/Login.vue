@@ -1,40 +1,28 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { usePage, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import { router } from '@inertiajs/vue3'
 import logo from '../Landing/assets/img/ic_logo.png'
 
-
-const page = usePage()
 const email = ref('')
 const password = ref('')
 const remember = ref(false)
 const showPassword = ref(false)
 const errorMessage = ref('')
 
-
-const csrf = page.props.csrf_token
-
-onMounted(() => {
-    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-    axios.defaults.withCredentials = true
-    axios.defaults.headers.common['Accept'] = 'application/json'
-})
-
-const submitForm = async () => {
-    try {
-        await axios.post('/user/login', {
-            email: email.value,
-            password: password.value,
-            remember: remember.value,
-            _token: csrf,
-        })
-        router.visit('/user/dashboard')
-    } catch (error) {
-        errorMessage.value = 'Login gagal, periksa kembali email dan password'
-    }
+const submitForm = () => {
+    router.post('/user/login', {
+        email: email.value,
+        password: password.value,
+        remember: remember.value
+    }, {
+        onError: () => {
+            errorMessage.value = 'Login gagal, periksa kembali email dan password'
+        }
+    })
 }
+
 </script>
+
 
 <template>
     <div class="min-h-screen flex">

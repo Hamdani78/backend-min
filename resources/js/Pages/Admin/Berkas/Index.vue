@@ -64,18 +64,24 @@
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
               <td class="px-4 py-2 border">
-                <!-- Verifikasi -->
-                <button v-if="item.pendaftar?.status_pendaftaran === 'berkas'"
-                  @click="ubahStatus(item.pendaftar.id, 'wawancara')"
-                  class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
-                  Set Wawancara
-                </button>
-
-                <button v-if="item.pendaftar?.status_pendaftaran === 'wawancara'"
-                  @click="ubahStatus(item.pendaftar.id, 'verifikasi')"
-                  class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
-                  Tandai Selesai Wawancara
-                </button>
+                <div v-if="item.pendaftar?.status_pendaftaran === 'berkas'">
+                  <button @click="ubahStatus(item.pendaftar.id, 'wawancara')"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
+                    Set Wawancara
+                  </button>
+                </div>
+                <div v-else-if="item.pendaftar?.status_pendaftaran === 'wawancara'">
+                  <button @click="ubahStatus(item.pendaftar.id, 'pengumuman')"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                    Tandai Selesai Wawancara
+                  </button>
+                </div>
+                <div v-else-if="item.pendaftar?.status_pendaftaran === 'pengumuman'">
+                  <span class="text-yellow-600 font-semibold">Menunggu Pengumuman</span>
+                </div>
+                <div v-else>
+                  <span class="text-gray-400 italic">-</span>
+                </div>
               </td>
 
               <td class="px-4 py-2 border">

@@ -11,7 +11,7 @@ class PendaftarStatusController extends Controller
     public function update(Request $request, Pendaftar $pendaftar)
     {
         $request->validate([
-            'status' => 'required|in:berkas,wawancara,verifikasi,selesai',
+            'status' => 'required|in:formulir,berkas,wawancara,pengumuman,verifikasi,selesai',
         ]);
 
         $pendaftar->status_pendaftaran = $request->status;

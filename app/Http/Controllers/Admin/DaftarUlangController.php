@@ -28,4 +28,16 @@ class DaftarUlangController extends Controller
 
         return back()->with('success', 'Surat berhasil diverifikasi.');
     }
+    public function selesaikan($id)
+    {
+        $daftarUlang = \App\Models\DaftarUlang::findOrFail($id);
+
+        $pendaftar = $daftarUlang->pendaftar;
+        if ($pendaftar) {
+            $pendaftar->update(['status_pendaftaran' => 'selesai']);
+            return back()->with('success', 'Pendaftar berhasil ditandai sebagai selesai.');
+        }
+
+        return back()->with('error', 'Data pendaftar tidak ditemukan.');
+    }
 }

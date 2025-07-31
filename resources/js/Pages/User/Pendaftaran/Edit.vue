@@ -320,9 +320,11 @@ function handleFoto(e) {
 }
 
 function confirmSubmit() {
-    form.put(route('user.pendaftaran.update'), {
+    form.post(route('user.pendaftaran.update'), {
         forceFormData: true,
         onSuccess: () => router.visit(route('user.pendaftaran.show')),
+
+        _method: 'put',
     })
 }
 </script>

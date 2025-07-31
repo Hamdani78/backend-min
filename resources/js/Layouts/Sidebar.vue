@@ -1,20 +1,19 @@
 <template>
   <aside class="w-64 bg-gray-900 text-white min-h-screen">
     <Link href="/admin/dashboard" class="flex items-center px-4 py-4 border-b border-gray-700">
-      <img src="../Pages/Landing/assets/img/ic_logo.png" alt="Admin Logo" class="w-8 h-8 rounded-full" />
-      <span class="font-light text-lg">ADMIN</span>
+    <img src="../Pages/Landing/assets/img/ic_logo.png" alt="Admin Logo" class="w-8 h-8 rounded-full" />
+    <span class="font-light text-lg">ADMIN</span>
     </Link>
 
     <div class="p-4 space-y-4">
       <div>
-        <input
-          type="text"
-          placeholder="Search"
-          class="w-full px-3 py-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none"
-        />
+        <input type="text" placeholder="Search"
+          class="w-full px-3 py-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none" />
       </div>
 
       <NavLink href="/admin/dashboard" icon="fas fa-tachometer-alt" label="Dashboard" exact />
+      <NavLink href="/admin/users" label="Users" icon="far fa-circle" />
+
 
       <SidebarSection icon="fas fa-table" label="Tables" v-model:open="openTables">
         <NavLink href="/admin/pegawai" label="Pegawai" icon="far fa-circle" />
@@ -26,17 +25,13 @@
       <SidebarSection icon="fas fa-table" label="PPDB" v-model:open="openPPDB">
         <NavLink href="/admin/pendaftar" label="Pendaftar" icon="far fa-circle" />
         <NavLink href="/admin/berkas-pendaftaran" label="Berkas" icon="far fa-circle" />
-        <NavLink href="/admin/daftar-ulang" label="Daftar Ulang" icon="far fa-circle" />
         <NavLink href="/admin/spk" label="SPK" icon="far fa-circle" />
+        <NavLink href="/admin/daftar-ulang" label="Daftar Ulang" icon="far fa-circle" />
       </SidebarSection>
 
-      <Link
-        href="/admin/logout"
-        method="post"
-        as="button"
-        class="w-full text-center mt-6 bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded text-white"
-      >
-        Logout
+      <Link href="/admin/logout" method="post" as="button"
+        class="w-full text-center mt-6 bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded text-white">
+      Logout
       </Link>
     </div>
   </aside>

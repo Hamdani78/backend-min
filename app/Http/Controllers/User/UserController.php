@@ -25,8 +25,12 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/user/dashboard');
+
+            return Inertia::location(
+                auth()->user()->role === 'kepsek' ? '/kepsek/dashboard' : '/user/dashboard'
+            );
         }
+
 
         return back()->withErrors([
             'email' => 'Login gagal. Periksa kembali email dan password.',

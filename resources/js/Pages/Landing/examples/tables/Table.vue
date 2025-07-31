@@ -2,16 +2,13 @@
 defineProps({
   headers: {
     type: Array,
-    default: () => ["Kelas", "Jumlah Siswa", "Nama Wali Kelas"],
+    default: () => ["Kelas", "Jumlah Siswa", "Laki-laki", "Perempuan", "Nama Wali Kelas"],
   },
   rows: {
     type: Array,
-    required: true,
-    className: String, 
-    studentCount: Number,  
-    teacherName: String,  
+    default: () => [],
   },
-});
+})
 </script>
 
 <template>
@@ -24,40 +21,25 @@ defineProps({
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th
-                      v-for="(header, index) in headers"
-                      :key="header"
-                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
-                      :class="{ 'ps-2': index == 1, 'text-center': index > 1 }"
-                    >
+                    <th v-for="(header, index) in headers" :key="index"
+                      class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                       {{ header }}
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr
-                    v-for="(
-                      {
-                        className,
-                        studentCount,
-                        teacherName,
-                      },
-                      index
-                    ) of rows"
-                    :key="index"
-                  >
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-xs">{{ className }}</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <p class="text-xs font-weight-bold mb-0">{{ studentCount }}</p>
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      <span class="text-secondary text-xs font-weight-bold">{{ teacherName }}</span>
+                <tbody v-if="rows.length > 0">
+                  <tr v-for="(row, index) in rows" :key="index">
+                    <td class="text-center">{{ row.className }}</td>
+                    <td class="text-center">{{ row.studentCount }}</td>
+                    <td class="text-center">{{ row.maleCount }}</td>
+                    <td class="text-center">{{ row.femaleCount }}</td>
+                    <td class="text-center">{{ row.teacherName }}</td>
+                  </tr>
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="5" class="text-center py-3 text-muted">
+                      Tidak ada data siswa tersedia.
                     </td>
                   </tr>
                 </tbody>

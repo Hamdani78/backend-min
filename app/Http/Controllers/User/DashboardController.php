@@ -24,6 +24,8 @@ class DashboardController extends Controller
             'pendaftar' => $pendaftar,
             'berkas' => $berkas,
             'statusPendaftaran' => $pendaftar?->status_pendaftaran,
+            'statusLulus' => $pendaftar?->status_lulus,       
+            'nilaiSpk' => $pendaftar?->nilai_spk,            
         ]);
     }
 }

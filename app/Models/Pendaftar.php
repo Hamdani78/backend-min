@@ -43,7 +43,9 @@ class Pendaftar extends Model
         'kip_nama',
         'kip_nomor',
         'foto',
-        'status_pendaftaran'
+        'status_pendaftaran',
+        'nilai_spk',
+        'status_lulus',
     ];
 
     public function orangTuas()

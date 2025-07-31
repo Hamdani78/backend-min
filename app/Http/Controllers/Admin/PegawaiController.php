@@ -28,7 +28,7 @@ class PegawaiController extends Controller
             'nip' => 'required|numeric',
             'email' => 'required|email',
             'status' => 'required|string',
-            'foto' => 'nullable|image|max:2048'
+            'foto' => 'nullable|image|max:5120'
         ]);
 
         $foto = $request->file('foto');
@@ -57,7 +57,7 @@ class PegawaiController extends Controller
             'nip' => 'required|numeric',
             'email' => 'required|email',
             'status' => 'required|string',
-            'foto' => 'nullable|image|max:2048'
+            'foto' => 'nullable|image|max:5120'
         ]);
 
         $data = $request->only(['nama', 'nip', 'email', 'status']);
