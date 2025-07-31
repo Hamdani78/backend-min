@@ -12,8 +12,8 @@ import MaterialSocialButton from "../../components/MaterialSocialButton.vue";
 
 // sections
 import PresentationHeader from "./Sections/Header.vue";
-import PresentationPages from "./Sections/Pages.vue";
-import PresentationExample from "./Sections/Example.vue";
+// import PresentationPages from "./Sections/Pages.vue";
+// import PresentationExample from "./Sections/Example.vue";
 import data from "./Sections/Data/designBlocksData";
 import BuiltByDevelopers from "./Components/BuiltByDevelopers.vue";
 import PresentationInformation from "./Sections/Information.vue";

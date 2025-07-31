@@ -10,9 +10,9 @@
     </div>
 
     <!-- Section Header -->
-    <section class="my-5 py-5 bg-gray-100">
+    <section class="my-5 py-5">
       <div class="container">
-        <div class="row justify-content-center text-center mb-5">
+        <div class="row justify-content-center text-center my-sm-5">
           <div class="col-lg-6">
             <h2 class="text-dark font-weight-bold">Fasilitas Madrasah</h2>
             <p class="lead text-secondary">Berikut adalah fasilitas yang tersedia di madrasah kami.</p>
