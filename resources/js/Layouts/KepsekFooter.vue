@@ -4,7 +4,7 @@
       &copy; {{ year }} 
       <a href="https://instagram.com/_fhmdni_" class="text-blue-600 hover:underline font-semibold" target="_blank">_fhmdni_</a>
     </span>
-    <span class="font-semibold">Version</span> 1.0.0
+    <span class="font-semibold"></span>Version 1.0.0
   </footer>
 </template>
 

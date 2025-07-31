@@ -121,6 +121,7 @@ Route::get('/landing/siswa', [\App\Http\Controllers\Landing\SiswaLandingControll
 // ========== KEPALA SEKOLAH ==========
 Route::middleware(['auth', 'role:kepsek'])->prefix('kepsek')->name('kepsek.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Kepsek\DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::get('/pegawai', [\App\Http\Controllers\Kepsek\PegawaiController::class, 'index'])->name('pegawai.index');
+    Route::get('/pendaftar', [\App\Http\Controllers\Kepsek\PendaftarController::class, 'index'])->name('pendaftar.index');
 });

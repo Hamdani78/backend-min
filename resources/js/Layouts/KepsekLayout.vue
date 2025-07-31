@@ -11,6 +11,7 @@
         <NavLink href="/kepsek/dashboard" icon="fas fa-tachometer-alt" label="Dashboard" exact />
         
         <NavLink :href="route('kepsek.pegawai.index')" icon="fas fa-users" label="Data Pegawai" />
+        <NavLink :href="route('kepsek.pendaftar.index')" icon="fas fa-users" label="Data Pendaftar" />
 
         <Link href="/user/logout" method="post" as="button"
           class="w-full text-center mt-6 bg-red-600 hover:bg-red-700 py-2 px-4 rounded text-white">
