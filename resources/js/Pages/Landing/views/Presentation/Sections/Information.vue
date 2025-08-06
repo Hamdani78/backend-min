@@ -36,14 +36,12 @@ import imageUrl from '../../../assets/img/min/bersama.jpg';
             <DefaultInfoCard
               icon="content_copy"
               title="Edukasi Terbaik"
-              description="Built by developers for developers. Check the foundation and
-                  you will find everything inside our documentation."
+              description="Menyediakan lingkungan belajar yang kondusif dan kurikulum yang disesuaikan untuk menunjang potensi peserta didik secara maksimal."
             />
             <DefaultInfoCard
               icon="flip_to_front"
               title="Pengajar Terbaik"
-              description="The world’s most popular front-end open source toolkit,
-                  featuring Sass variables and mixins."
+              description="Didukung oleh tenaga pendidik berpengalaman, profesional, dan berdedikasi dalam membimbing siswa menjadi pribadi yang unggul."
             />
           </div>
           <div class="row justify-content-start mt-5">
@@ -51,15 +49,13 @@ import imageUrl from '../../../assets/img/min/bersama.jpg';
               class="mt-3"
               icon="price_change"
               title="Sekolah Rekomendasi"
-              description="Creating your design from scratch with dedicated designers can
-                be very expensive. Start with our Design System."
+              description="Menjadi pilihan utama bagi orang tua dalam menyekolahkan anak karena kualitas pembelajaran dan fasilitas yang lengkap."
             />
             <DefaultInfoCard
               class="mt-3"
               icon="devices"
               title="Akreditasi A"
-              description="Regardless of the screen size, the website content will
-                  naturally fit the given resolution."
+              description="Terakreditasi A oleh BAN-S/M sebagai bukti kualitas mutu pendidikan yang telah diakui secara nasional."
             />
           </div>
         </div>

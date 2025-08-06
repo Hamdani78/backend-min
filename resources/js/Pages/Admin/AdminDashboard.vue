@@ -43,7 +43,7 @@ function filteredKegiatanImages(id) {
     <!-- Statistik -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
       <StatCard icon="fas fa-user-tie" label="Total Pegawai" :value="totalPegawai" bgColor="bg-blue-500" />
-      <StatCard icon="fas fa-user-graduate" label="Total Siswa" :value="totalSiswa" bgColor="bg-green-600" />
+      <StatCard icon="fas fa-user-graduate" label="Total Kelas" :value="totalSiswa" bgColor="bg-green-600" />
       <StatCard icon="fas fa-school" label="Total Fasilitas" :value="totalFasilitas" bgColor="bg-cyan-400" />
       <StatCard icon="fas fa-calendar-alt" label="Total Kegiatan" :value="totalKegiatan" bgColor="bg-yellow-400" />
     </div>
