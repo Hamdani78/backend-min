@@ -3,9 +3,6 @@ import FooterCentered from "../../../examples/footers/FooterCentered.vue"
 import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue"
 import HeaderView from "../PPDB/Sections/HeaderView.vue"
 
-const currentYear = new Date().getFullYear()
-const nextYear = currentYear + 1
-
 const steps = [
   { icon: 'person_add', title: 'Daftar Online', desc: 'Membuat akun di portal', color: 'text-red-500' },
   { icon: 'badge', title: 'Lengkapi Data Diri', desc: 'Isi formulir pendaftaran', color: 'text-gray-800' },

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'MIN 1 Rokan Hulu'),
+    'name' => env('APP_NAME', 'MIN 1 ROKAN HULU'),
 
     /*
     |--------------------------------------------------------------------------
