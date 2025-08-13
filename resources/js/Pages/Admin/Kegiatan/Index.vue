@@ -1,6 +1,5 @@
 <template>
   <AdminLayout title="Data Kegiatan">
-    <!-- Flash Message -->
     <div v-if="$page.props.flash.success" class="bg-blue-100 text-blue-800 p-4 rounded mb-4">
       {{ $page.props.flash.success }}
     </div>
@@ -8,8 +7,6 @@
     <div class="bg-white p-6 rounded shadow">
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold">Data Table Kegiatan</h2>
-
-        <!-- Link as button (SPA) -->
         <Link
           as="button"
           type="button"
@@ -67,7 +64,6 @@ import { router, Link } from '@inertiajs/vue3'
 import { computed, onMounted, onBeforeUnmount, nextTick, ref, watch } from 'vue'
 
 const props = defineProps({ kegiatan: { type: Object, default: () => ({ data: [] }) } })
-/* dukung array langsung atau paginator Laravel */
 const rows = computed(() => Array.isArray(props.kegiatan?.data) ? props.kegiatan.data : (props.kegiatan || []))
 
 function hapus(id) {
@@ -76,7 +72,7 @@ function hapus(id) {
   }
 }
 
-/* ===== DataTables (ESM) – sama dengan Pegawai/Siswa ===== */
+/* ===== DataTables ===== */
 import DataTable from 'datatables.net-dt'
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 import 'datatables.net-responsive-dt'
@@ -106,8 +102,8 @@ function initDT () {
     autoWidth: false,
     layout: { topStart: { buttons: ['copy','csv','excel','pdf','print','colvis'] } },
     columnDefs: [
-      { targets: [2, 3], orderable: false },   // Foto & Aksi tak bisa sort
-      { targets: [2, 3], searchable: false }   // Foto & Aksi tak dicari
+      { targets: [2, 3], orderable: false },  
+      { targets: [2, 3], searchable: false }   
     ]
   })
 }
@@ -118,7 +114,6 @@ watch(rows, async () => { await nextTick(); initDT() })
 </script>
 
 <style scoped>
-/* bikin garis vertikal muncul rapi */
 :deep(table.dataTable){
   border-collapse: collapse !important;
   border-spacing: 0 !important;
@@ -138,7 +133,6 @@ watch(rows, async () => { await nextTick(); initDT() })
 :deep(table.dataTable th:nth-child(3)) { width: 140px; } /* Foto */
 :deep(table.dataTable th:nth-child(4)) { width: 140px; } /* Aksi */
 
-/* utils */
 .truncate-1{ white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display:block; }
 .btn-xs{ padding: 4px 8px; line-height: 1; }
 </style>

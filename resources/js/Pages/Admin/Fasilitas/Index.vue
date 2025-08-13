@@ -74,7 +74,7 @@ function hapus(id) {
   }
 }
 
-/* ===== DataTables (ESM) – sama dengan Kegiatan/Pegawai/Siswa ===== */
+/* ===== DataTables ===== */
 import DataTable from 'datatables.net-dt'
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 import 'datatables.net-responsive-dt'
@@ -104,8 +104,8 @@ function initDT () {
     autoWidth: false,
     layout: { topStart: { buttons: ['copy','csv','excel','pdf','print','colvis'] } },
     columnDefs: [
-      { targets: [2, 3], orderable: false },   // Foto & Aksi tak bisa sort
-      { targets: [2, 3], searchable: false }   // Foto & Aksi tak dicari
+      { targets: [2, 3], orderable: false },   
+      { targets: [2, 3], searchable: false }   
     ]
   })
 }
@@ -123,7 +123,6 @@ watch(rows, async () => { await nextTick(); initDT() })
   table-layout: fixed;
 }
 
-/* compact cells (match halaman lain) */
 :deep(table.dataTable thead th),
 :deep(table.dataTable tbody td){
   padding: 6px 10px;
@@ -131,10 +130,10 @@ watch(rows, async () => { await nextTick(); initDT() })
 }
 
 /* lebar kolom */
-:deep(table.dataTable th:nth-child(1)) { width: 220px; } /* Nama */
-:deep(table.dataTable th:nth-child(2)) { width: 320px; } /* Deskripsi */
-:deep(table.dataTable th:nth-child(3)) { width: 140px; } /* Foto */
-:deep(table.dataTable th:nth-child(4)) { width: 140px; } /* Aksi */
+:deep(table.dataTable th:nth-child(1)) { width: 220px; }
+:deep(table.dataTable th:nth-child(2)) { width: 320px; } 
+:deep(table.dataTable th:nth-child(3)) { width: 140px; } 
+:deep(table.dataTable th:nth-child(4)) { width: 140px; } 
 
 /* utils */
 .truncate-1{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }

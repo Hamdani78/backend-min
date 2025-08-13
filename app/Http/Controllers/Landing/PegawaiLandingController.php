@@ -9,7 +9,7 @@ class PegawaiLandingController extends Controller
 {
     public function index()
     {
-        $pegawai = Pegawai::orderBy('created_at', 'asc')->get();
+        $pegawai = Pegawai::where('is_active', true)->get();
         return response()->json($pegawai);
     }
 }

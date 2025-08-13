@@ -1,7 +1,6 @@
 <template>
   <AdminLayout>
     <div>
-      <!-- Flash Message -->
       <div v-if="flashSuccess" class="bg-blue-100 text-blue-800 p-4 rounded mb-4">
         {{ flashSuccess }}
       </div>
@@ -147,7 +146,7 @@ const pagedRows = computed(() => props.berkas.slice(startIndex.value, endIndex.v
 
 watch([() => props.berkas, perPage], () => { page.value = 1 })
 
-// generate daftar halaman dengan ellipsis (mirip DataTables)
+// generate daftar halaman dengan ellipsis
 const pageItems = computed(() => {
   const t = totalPages.value
   const p = page.value

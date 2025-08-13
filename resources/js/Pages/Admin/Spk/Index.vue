@@ -24,7 +24,7 @@ const resetNilai = (p) => {
   p.wawancara = null
 }
 
-/* ===== Pagination (frontend) ===== */
+/* ===== Pagination ===== */
 const page = ref(1)
 const perPage = ref(10)
 
@@ -55,7 +55,6 @@ function goTo(p) {
   page.value = p
 }
 
-/* helper untuk cek nilai terisi (termasuk 0.0) */
 const isSet = v => v !== null && v !== undefined && v !== ''
 </script>
 

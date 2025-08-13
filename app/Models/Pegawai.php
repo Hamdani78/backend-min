@@ -11,7 +11,11 @@ class Pegawai extends Model
     use HasFactory;
 
     protected $table = 'pegawais';
-    protected $fillable = ['nama', 'nip', 'email', 'status', 'foto'];
+    protected $fillable = ['nama', 'nip', 'email', 'status', 'foto', 'is_active'];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
 
     public function siswa()
     {

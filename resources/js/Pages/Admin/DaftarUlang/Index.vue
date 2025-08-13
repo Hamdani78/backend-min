@@ -48,7 +48,7 @@
             </td>
 
             <td class="p-2 border">
-              <!-- (opsional) tempatkan aksi lain di sini -->
+
             </td>
           </tr>
         </tbody>
@@ -123,7 +123,7 @@ function selesaikan(id) {
   }
 }
 
-/* ===== Pagination (frontend) ===== */
+/* ===== Pagination ===== */
 const page = ref(1)
 const perPage = ref(10)
 

@@ -189,5 +189,4 @@ function formatTanggal(iso) {
     line-height: 1;
 }
 
-/* lebih kecil dari sebelumnya */
 </style>

@@ -73,7 +73,7 @@ const flashSuccess = computed(() => usePage().props.value?.flash?.success)
 const currentYear = new Date().getFullYear()
 const nextYear = currentYear + 1
 
-/* ===== DataTables (ESM, tanpa jQuery) ===== */
+/* ===== DataTables ===== */
 import DataTable from 'datatables.net-dt'
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 import 'datatables.net-responsive-dt'
@@ -84,7 +84,7 @@ import 'datatables.net-buttons/js/buttons.colVis.mjs'
 import 'datatables.net-buttons/js/buttons.html5.mjs'
 import 'datatables.net-buttons/js/buttons.print.mjs'
 
-// Excel/PDF deps (load sekali saja; aman bila di-load ulang)
+// Excel/PDF deps
 import JSZip from 'jszip'
 window.JSZip = window.JSZip || JSZip
 import pdfMake from 'pdfmake/build/pdfmake'
@@ -107,7 +107,7 @@ function initDT () {
     autoWidth: false,
     layout: { topStart: { buttons: ['copy', 'csv', 'excel', 'pdf', 'print', 'colvis'] } },
     columnDefs: [
-      { targets: [5], orderable: false, searchable: false } // Aksi
+      { targets: [5], orderable: false, searchable: false } 
     ]
   })
 }
@@ -133,12 +133,12 @@ function hapus(id) {
 
 /* Fix kolom + kurangi wrap */
 :deep(table.dataTable) { table-layout: fixed; }
-:deep(table.dataTable th:nth-child(1)) { width: 180px; } /* Kelas */
-:deep(table.dataTable th:nth-child(2)) { width: 100px; } /* Jumlah */
-:deep(table.dataTable th:nth-child(3)) { width: 110px; } /* Laki-laki */
-:deep(table.dataTable th:nth-child(4)) { width: 120px; } /* Perempuan */
-:deep(table.dataTable th:nth-child(5)) { width: 220px; } /* Wali Kelas */
-:deep(table.dataTable th:nth-child(6)) { width: 120px; } /* Aksi */
+:deep(table.dataTable th:nth-child(1)) { width: 180px; }
+:deep(table.dataTable th:nth-child(2)) { width: 100px; }
+:deep(table.dataTable th:nth-child(3)) { width: 110px; }
+:deep(table.dataTable th:nth-child(4)) { width: 120px; }
+:deep(table.dataTable th:nth-child(5)) { width: 220px; } 
+:deep(table.dataTable th:nth-child(6)) { width: 120px; } 
 
 .truncate-1 {
   display: block;

@@ -1,7 +1,6 @@
 <template>
   <AdminLayout>
     <div class="p-6">
-      <!-- Flash -->
       <div v-if="$page.props.flash?.success" class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
         {{ $page.props.flash.success }}
       </div>
@@ -10,7 +9,6 @@
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold">Data User</h3>
 
-          <!-- Link as button -->
           <Link
             as="button"
             type="button"
@@ -62,7 +60,7 @@ import { computed, ref, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 const props = defineProps({ users: { type: Array, default: () => [] } })
 const rows = computed(() => props.users ?? [])
 
-/* ===== DataTables (ESM, tanpa jQuery) ===== */
+/* ===== DataTables ===== */
 import DataTable from 'datatables.net-dt'
 import 'datatables.net-dt/css/dataTables.dataTables.css'
 import 'datatables.net-responsive-dt'
@@ -73,7 +71,7 @@ import 'datatables.net-buttons/js/buttons.colVis.mjs'
 import 'datatables.net-buttons/js/buttons.html5.mjs'
 import 'datatables.net-buttons/js/buttons.print.mjs'
 
-// Excel/PDF deps (load sekali; aman bila dipanggil ulang)
+// Excel/PDF deps 
 import JSZip from 'jszip'
 window.JSZip = window.JSZip || JSZip
 import pdfMake from 'pdfmake/build/pdfmake'
@@ -95,7 +93,7 @@ function initDT () {
     autoWidth: false,
     layout: { topStart: { buttons: ['copy','csv','excel','pdf','print','colvis'] } },
     columnDefs: [
-      { targets: [3], orderable: false, searchable: false } // Aksi
+      { targets: [3], orderable: false, searchable: false } 
     ]
   })
 }
@@ -120,10 +118,10 @@ function hapus(id) {
 
 /* Tabel fixed & lebar kolom */
 :deep(table.dataTable) { table-layout: fixed; }
-:deep(table.dataTable th:nth-child(1)) { width: 220px; } /* Nama */
-:deep(table.dataTable th:nth-child(2)) { width: 260px; } /* Email */
-:deep(table.dataTable th:nth-child(3)) { width: 140px; } /* Role */
-:deep(table.dataTable th:nth-child(4)) { width: 120px; } /* Aksi */
+:deep(table.dataTable th:nth-child(1)) { width: 220px; } 
+:deep(table.dataTable th:nth-child(2)) { width: 260px; } 
+:deep(table.dataTable th:nth-child(3)) { width: 140px; } 
+:deep(table.dataTable th:nth-child(4)) { width: 120px; }
 
 /* Truncate teks */
 .truncate-1 {
