@@ -20,6 +20,7 @@
         <NavLink href="/admin/siswa" label="Siswa" icon="far fa-circle" />
         <NavLink href="/admin/fasilitas" label="Fasilitas" icon="far fa-circle" />
         <NavLink href="/admin/kegiatan" label="Kegiatan" icon="far fa-circle" />
+        <NavLink href="/admin/content" label="Content" icon="far fa-circle" />
       </SidebarSection>
 
       <SidebarSection icon="fas fa-table" label="PPDB" v-model:open="openPPDB">

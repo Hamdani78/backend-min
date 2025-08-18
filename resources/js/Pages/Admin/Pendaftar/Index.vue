@@ -9,7 +9,7 @@
 
       <div class="bg-white rounded shadow p-4">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold">Data Pendaftar Tahun Ajaran {{ currentYear }}/{{ nextYear }}</h3>
+          <h3 class="text-lg font-semibold">Data Pendaftar - Tahun Ajaran {{ currentYear }}/{{ nextYear }}</h3>
 
           <Link
             as="button"

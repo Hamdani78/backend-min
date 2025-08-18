@@ -120,11 +120,15 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
         Route::post('/{pendaftar}/request-fix', [\App\Http\Controllers\Admin\PendaftarVerificationController::class, 'requestFix'])->name('request_fix');
     });
 
-    Route::post('/berkas-pendaftaran/{berkas_pendaftaran}/verify',
-      [\App\Http\Controllers\Admin\BerkasPendaftaranController::class, 'verify'])->name('berkas-pendaftaran.verify');
+    Route::post(
+        '/berkas-pendaftaran/{berkas_pendaftaran}/verify',
+        [\App\Http\Controllers\Admin\BerkasPendaftaranController::class, 'verify']
+    )->name('berkas-pendaftaran.verify');
 
-    Route::post('/berkas-pendaftaran/{berkas_pendaftaran}/wawancara',
-      [\App\Http\Controllers\Admin\BerkasPendaftaranController::class, 'setWawancara'])->name('berkas-pendaftaran.wawancara');
+    Route::post(
+        '/berkas-pendaftaran/{berkas_pendaftaran}/wawancara',
+        [\App\Http\Controllers\Admin\BerkasPendaftaranController::class, 'setWawancara']
+    )->name('berkas-pendaftaran.wawancara');
 
     // ========= SPK =========
     Route::get('/spk', [\App\Http\Controllers\Admin\SpkController::class, 'index'])->name('spk.index');
@@ -143,6 +147,10 @@ Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::get('/daftar-ulang', [\App\Http\Controllers\Admin\DaftarUlangController::class, 'index'])->name('admin.daftar-ulang.index');
     Route::post('/daftar-ulang/{id}/verifikasi', [\App\Http\Controllers\Admin\DaftarUlangController::class, 'verifikasi'])->name('admin.daftar-ulang.verifikasi');
     Route::post('/daftar-ulang/{id}/selesai', [\App\Http\Controllers\Admin\DaftarUlangController::class, 'selesaikan'])->name('admin.daftar-ulang.selesai');
+
+    // ===== Content =====
+    Route::resource('content', App\Http\Controllers\Admin\ContentController::class)
+        ->only(['index','create','store','edit','update','destroy']);
 });
 
 // ========== LANDING PAGES ==========
@@ -150,6 +158,8 @@ Route::get('/landing/fasilitas', [\App\Http\Controllers\Landing\FasilitasLanding
 Route::get('/landing/kegiatan', [\App\Http\Controllers\Landing\KegiatanLandingController::class, 'index']);
 Route::get('/landing/pegawai', [\App\Http\Controllers\Landing\PegawaiLandingController::class, 'index']);
 Route::get('/landing/siswa', [\App\Http\Controllers\Landing\SiswaLandingController::class, 'index']);
+Route::get('/landing/kamad', [\App\Http\Controllers\Landing\KamadController::class, 'index']);
+
 
 
 // ========== KEPALA SEKOLAH ==========
