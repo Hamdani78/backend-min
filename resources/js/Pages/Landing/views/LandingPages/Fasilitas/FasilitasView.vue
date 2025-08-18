@@ -33,10 +33,9 @@
           class="fsl-swiper"
         >
           <SwiperSlide v-for="(group, idx) in chunkArray(fasilitas, 6)" :key="idx">
-            <!-- Board -->
             <div class="card shadow-sm fsl-board">
               <div class="card-header bg-white border-0 pb-2 d-flex justify-content-between align-items-center">
-                <!-- <span class="text-secondary">Halaman {{ idx + 1 }}</span> -->
+                <!-- kosong (header slide) -->
               </div>
               <div class="card-body pt-0">
                 <div class="row g-3 g-lg-4">
@@ -86,8 +85,14 @@
 
                       <!-- Deskripsi -->
                       <div class="card-body">
-                        <h5 class="card-title text-dark">{{ item.nama }}</h5>
-                        <p class="card-text text-secondary" v-if="item.deskripsi">
+                        <!-- tanggal diposting -->
+                        <div v-if="postedDate(item)" class="d-flex align-items-center text-secondary mb-1">
+                          <i class="fa-regular fa-calendar me-2"></i>
+                          <small>Diposting {{ formatDate(postedDate(item)) }}</small>
+                        </div>
+
+                        <h5 class="card-title text-dark mb-1">{{ item.nama }}</h5>
+                        <p class="card-text text-secondary mb-0" v-if="item.deskripsi">
                           {{ item.deskripsi }}
                         </p>
                       </div>
@@ -120,8 +125,8 @@ const fasilitas = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/landing/fasilitas')
-    fasilitas.value = response.data ?? []
+    const { data } = await axios.get('/landing/fasilitas')
+    fasilitas.value = data ?? []
   } catch (err) {
     console.error('Gagal memuat fasilitas:', err)
   }
@@ -133,55 +138,44 @@ function chunkArray(arr, size) {
     arr.slice(i * size, i * size + size)
   )
 }
-
 function normalizeSrc(src) {
   if (!src) return '/images/no-image.png'
   return src.startsWith('http') || src.startsWith('/') ? src : `/${src}`
 }
+
+/* ==== Tanggal diposting ==== */
+/** Ambil field tanggal yang tersedia pada item (ubah urutan/field sesuai backend Anda) */
+function postedDate(item) {
+  return item?.tanggal || item?.published_at || item?.created_at || null
+}
+/** Format ke Indonesia: 12 Maret 2026 */
+function formatDate(dateStr) {
+  const d = dateStr ? new Date(dateStr) : null
+  if (!d || isNaN(d.getTime())) return ''
+  return new Intl.DateTimeFormat('id-ID', {
+    day: '2-digit', month: 'long', year: 'numeric'
+  }).format(d)
+}
 </script>
 
 <style scoped>
-.card-title {
-  font-weight: 600;
-}
+.card-title { font-weight: 600; }
 
-.fsl-board {
-  border-radius: 16px;
-}
-.fsl-board .card-header {
-  border-bottom: 1px dashed #e5e7eb !important;
-}
+.fsl-board { border-radius: 16px; }
+.fsl-board .card-header { border-bottom: 1px dashed #e5e7eb !important; }
 
-:deep(.fsl-swiper .swiper-slide) {
-  height: auto;
-}
-:deep(.fsl-swiper .swiper-wrapper) {
-  align-items: stretch;
-}
+:deep(.fsl-swiper .swiper-slide) { height: auto; }
+:deep(.fsl-swiper .swiper-wrapper) { align-items: stretch; }
 
-:deep(.fsl-swiper .swiper-pagination) {
-  bottom: 6px;
-  margin-bottom: 0;
-}
-:deep(.fsl-swiper .swiper-pagination-bullet) {
-  background: #c7d2fe;
-  opacity: 1;
-}
-:deep(.fsl-swiper .swiper-pagination-bullet-active) {
-  background: #4f46e5;
-}
+:deep(.fsl-swiper .swiper-pagination) { bottom: 6px; margin-bottom: 0; }
+:deep(.fsl-swiper .swiper-pagination-bullet) { background: #c7d2fe; opacity: 1; }
+:deep(.fsl-swiper .swiper-pagination-bullet-active) { background: #4f46e5; }
 
 :deep(.fsl-swiper .swiper-button-prev),
 :deep(.fsl-swiper .swiper-button-next) {
-  color: #2563eb;
-  width: 44px;
-  height: 44px;
-  background: #eff6ff;
-  border-radius: 9999px;
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  color: #2563eb; width: 44px; height: 44px; background: #eff6ff;
+  border-radius: 9999px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }
 :deep(.fsl-swiper .swiper-button-prev:after),
-:deep(.fsl-swiper .swiper-button-next:after) {
-  font-size: 16px;
-}
+:deep(.fsl-swiper .swiper-button-next:after) { font-size: 16px; }
 </style>

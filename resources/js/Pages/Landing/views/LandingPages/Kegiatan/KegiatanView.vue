@@ -33,9 +33,8 @@
           <SwiperSlide v-for="(group, idx) in chunkArray(kegiatan, 6)" :key="idx">
             <!-- Card besar (board) -->
             <div class="card shadow-sm kgt-board">
-              <div class="card-header bg-white border-0 pb-2 d-flex justify-content-between align-items-center">
-                <!-- <span class="text-secondary">Halaman {{ idx + 1 }}</span> -->
-              </div>
+              <div class="card-header bg-white border-0 pb-2 d-flex justify-content-between align-items-center"></div>
+
               <div class="card-body pt-0">
                 <!-- Grid 6 item di dalam board-->
                 <div class="row g-3 g-lg-4">
@@ -63,28 +62,24 @@
                             />
                           </div>
                         </div>
-                        <button
-                          class="carousel-control-prev"
-                          type="button"
-                          :data-bs-target="`#carousel-kegiatan-${item.id}`"
-                          data-bs-slide="prev"
-                        >
+                        <button class="carousel-control-prev" type="button" :data-bs-target="`#carousel-kegiatan-${item.id}`" data-bs-slide="prev">
                           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                           <span class="visually-hidden">Previous</span>
                         </button>
-                        <button
-                          class="carousel-control-next"
-                          type="button"
-                          :data-bs-target="`#carousel-kegiatan-${item.id}`"
-                          data-bs-slide="next"
-                        >
+                        <button class="carousel-control-next" type="button" :data-bs-target="`#carousel-kegiatan-${item.id}`" data-bs-slide="next">
                           <span class="carousel-control-next-icon" aria-hidden="true"></span>
                           <span class="visually-hidden">Next</span>
                         </button>
                       </div>
 
-                      <!-- Deskripsi (tetap) -->
+                      <!-- Deskripsi -->
                       <div class="card-body">
+                        <!-- Tanggal diposting -->
+                        <div v-if="postedDate(item)" class="d-flex align-items-center text-secondary mb-1">
+                          <i class="fa-regular fa-calendar me-2"></i>
+                          <small>Diposting {{ formatDate(postedDate(item)) }}</small>
+                        </div>
+
                         <h5 class="card-title text-dark">{{ item.nama }}</h5>
                         <p class="card-text text-secondary" v-if="item.deskripsi">
                           {{ item.deskripsi }}
@@ -120,8 +115,8 @@ const kegiatan = ref([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get('/landing/kegiatan')
-    kegiatan.value = response.data ?? []
+    const { data } = await axios.get('/landing/kegiatan')
+    kegiatan.value = data ?? []
   } catch (err) {
     console.error('Gagal memuat kegiatan:', err)
   }
@@ -129,15 +124,24 @@ onMounted(async () => {
 
 function chunkArray(arr, size) {
   if (!Array.isArray(arr)) return []
-  return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size)
-  )
+  return Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size))
 }
-
 // pastikan path gambar valid (leading slash)
 function normalizeSrc(src) {
   if (!src) return '/images/no-image.png'
   return src.startsWith('http') || src.startsWith('/') ? src : `/${src}`
+}
+
+/* ==== Tanggal diposting ==== */
+// Ambil field tanggal yang tersedia (ubah sesuai backend jika perlu)
+function postedDate(item) {
+  return item?.tanggal || item?.tanggal_kegiatan || item?.tgl_kegiatan || item?.published_at || item?.created_at || null
+}
+// Format lokal Indonesia: 12 Maret 2026
+function formatDate(dateStr) {
+  const d = dateStr ? new Date(dateStr) : null
+  if (!d || isNaN(d.getTime())) return ''
+  return new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }).format(d)
 }
 </script>
 
@@ -153,10 +157,7 @@ function normalizeSrc(src) {
 :deep(.kgt-swiper .swiper-wrapper){ align-items: stretch; }
 
 /* ==== Rapikan pagination & arrows ==== */
-:deep(.kgt-swiper .swiper-pagination){
-  bottom: 6px;
-  margin-bottom: 0;
-}
+:deep(.kgt-swiper .swiper-pagination){ bottom: 6px; margin-bottom: 0; }
 :deep(.kgt-swiper .swiper-pagination-bullet){ background:#c7d2fe; opacity:1; }
 :deep(.kgt-swiper .swiper-pagination-bullet-active){ background:#4f46e5; }
 

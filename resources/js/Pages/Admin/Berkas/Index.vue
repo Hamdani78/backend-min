@@ -53,9 +53,7 @@
                 <span v-else class="text-gray-400 italic">-</span>
               </td>
 
-              <!-- STATUS / ACTIONS -->
               <td class="px-4 py-2 border">
-                <!-- Pending: kosong / formulir / berkas -->
                 <template
                   v-if="
                     !item.pendaftar?.status_pendaftaran ||
@@ -78,7 +76,6 @@
                   </div>
                 </template>
 
-                <!-- Sudah terverifikasi berkas -->
                 <template v-else-if="item.pendaftar?.status_pendaftaran === 'berkas_terverifikasi'">
                   <div class="flex flex-wrap gap-2">
                     <button
@@ -87,7 +84,6 @@
                     >
                       Set Wawancara
                     </button>
-                    <!-- Opsional: Unverify kembali ke 'berkas' -->
                     <button
                       @click="ubahStatus(item.pendaftar.id, 'berkas')"
                       class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded"
@@ -130,7 +126,7 @@
 
                 <!-- Default -->
                 <template v-else>
-                  <span class="text-gray-400 italic">-</span>
+                  <span class="text-gray-400 italic">Selesai</span>
                 </template>
               </td>
 
@@ -176,9 +172,7 @@
 
     <!-- ===================== MODAL SET WAWANCARA ===================== -->
     <div v-if="showModal" class="fixed inset-0 z-50">
-      <!-- overlay -->
       <div class="absolute inset-0 bg-black/40" @click.self="closeModal"></div>
-
       <!-- dialog -->
       <div class="absolute inset-0 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-md rounded-lg shadow-lg p-5">
@@ -225,14 +219,12 @@ import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 const props = defineProps({ berkas: { type: Array, default: () => [] } })
 const flashSuccess = computed(() => usePage().props.value?.flash?.success)
 
-/* Helpers */
 function formatDateTime(iso) {
   if (!iso) return '-'
   try { return new Date(iso).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' }) }
   catch { return iso }
 }
 
-/* Pagination (unchanged) */
 const page = ref(1)
 const perPage = ref(10)
 const total = computed(() => props.berkas.length)
@@ -284,14 +276,13 @@ function toLocalInputValue(dt){
 }
 
 function openModalSetWawancara(item){
-  // default: besok 09:00 (Lokal)
   const dt = new Date()
   dt.setDate(dt.getDate() + 1)
   dt.setHours(9, 0, 0, 0)
 
   formW.value = {
     berkas_id: item.id,
-    jadwal: toLocalInputValue(dt),               // <-- cuma ini, tidak pakai toISOString()
+    jadwal: toLocalInputValue(dt),              
     tempat: item.pendaftar?.wawancara_tempat || '',
     catatan: item.pendaftar?.wawancara_catatan || ''
   }
@@ -315,7 +306,6 @@ function simpanWawancara(){
   )
 }
 
-// ESC untuk tutup
 function handleKey(e){ if (e.key === 'Escape' && showModal.value) closeModal() }
 onMounted(() => window.addEventListener('keydown', handleKey))
 onBeforeUnmount(() => window.removeEventListener('keydown', handleKey))
