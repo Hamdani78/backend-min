@@ -8,16 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Wali extends Model
 {
     use HasFactory;
-    
-    protected $fillable = [
-        'pendaftar_id',
-        'nama',
-        'hubungan_keluarga'
-    ];
 
+    protected $fillable = [
+        'pendaftar_id','nama','hubungan_keluarga',
+    ];
 
     public function pendaftar()
     {
-        return $this->belongsTo(Pendaftar::class);
+        return $this->belongsTo(Pendaftar::class, 'pendaftar_id');
     }
 }

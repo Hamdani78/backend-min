@@ -4,28 +4,47 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // ===== Kepsek =====
         if ($user->role === 'kepsek') {
-            return Inertia::render('User/KepsekDashboard', [
-                'auth' => ['user' => $user],
+            $notifications = $user->notifications()
+                ->select('id', 'data', 'created_at', 'read_at')
+                ->latest()
+                ->limit(20)
+                ->get();
+
+            return Inertia::render('Kepsek/Dashboard', [
+                'auth'          => ['user' => $user],
+                'notifications' => $notifications,
+                'flash'         => session()->only(['success','status','error']),
             ]);
         }
 
-        $pendaftar = $user->pendaftar;
-        $berkas = $pendaftar?->berkas;
+        // ===== Pendaftar =====
+        $pendaftar = $user->pendaftar?->load(['berkas','daftarUlang']);
+        $notifications = $user->notifications()
+            ->select('id', 'data', 'created_at', 'read_at')
+            ->latest()
+            ->limit(20)
+            ->get();
 
         return Inertia::render('User/PendaftarDashboard', [
-            'auth' => ['user' => $user],
-            'pendaftar' => $pendaftar,
-            'berkas' => $berkas,
-            'statusPendaftaran' => $pendaftar?->status_pendaftaran,
-            'statusLulus' => $pendaftar?->status_lulus,       
-            'nilaiSpk' => $pendaftar?->nilai_spk,            
+            'auth'               => ['user' => $user],
+            'pendaftar'          => $pendaftar,
+            'berkas'             => $pendaftar?->berkas,
+            'statusPendaftaran'  => $pendaftar?->status_pendaftaran,
+            'statusLulus'        => $pendaftar?->status_lulus,
+            'nilaiSpk'           => $pendaftar?->nilai_spk,
+            'notifications'      => $notifications,
+            'flash'              => session()->only(['success','status','error']),
         ]);
     }
 }

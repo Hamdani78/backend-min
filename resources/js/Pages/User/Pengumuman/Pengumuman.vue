@@ -5,7 +5,7 @@
 
       <!-- Status Kelulusan -->
       <div v-if="statusPengumuman === 'lulus'" class="bg-green-100 text-green-800 p-4 rounded text-center font-semibold">
-        🎉 Selamat! Anda dinyatakan <span class="underline">LULUS</span>.
+         Selamat! Anda dinyatakan <span class="underline">LULUS</span>.
 
         <div class="mt-4">
           <button @click="router.visit('/user/daftar-ulang')"
@@ -16,7 +16,7 @@
       </div>
 
       <div v-else-if="statusPengumuman === 'tidak_lulus'" class="bg-red-100 text-red-700 p-4 rounded text-center font-semibold">
-        ❌ Mohon maaf, Anda <span class="underline">TIDAK LULUS</span> tahun ini.
+         Mohon maaf, Anda <span class="underline">TIDAK LULUS</span> tahun ini.
       </div>
 
       <div v-else class="bg-gray-100 text-gray-700 p-4 rounded text-center italic">

@@ -8,31 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class OrangTua extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
-        'pendaftar_id',
-        'tipe', 
-        'nama',
-        'status',
-        'nik',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'pendidikan',
-        'pekerjaan',
-        'penghasilan',
-        'no_hp',
-        'tempat_tinggal',
-        'alamat',
-        'provinsi',
-        'kabupaten',
-        'kecamatan',
-        'kelurahan',
-        'kks',
-        'pkh'
+        'pendaftar_id','tipe', 
+        'nama','status','nik','tempat_lahir','tanggal_lahir','pendidikan','pekerjaan','penghasilan',
+        'no_hp','tempat_tinggal','alamat','provinsi','kabupaten','kecamatan','kelurahan','kks','pkh'
+    ];
+
+    protected $casts = [
+        'tanggal_lahir' => 'date',
     ];
 
     public function pendaftar()
     {
-        return $this->belongsTo(Pendaftar::class);
+        return $this->belongsTo(Pendaftar::class, 'pendaftar_id');
     }
 }

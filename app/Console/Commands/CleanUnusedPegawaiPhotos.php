@@ -13,7 +13,7 @@ class CleanUnusedPegawaiPhotos extends Command
 
     public function handle()
     {
-        $this->info("⏳ Mengecek folder foto pegawai...");
+        $this->info(" Mengecek folder foto pegawai...");
 
         $photoPath = public_path('storage/pegawai');
         $filesInDirectory = collect(File::files($photoPath))->map(function ($file) {
@@ -27,15 +27,15 @@ class CleanUnusedPegawaiPhotos extends Command
         $unusedPhotos = $filesInDirectory->diff($usedPhotos);
 
         if ($unusedPhotos->isEmpty()) {
-            $this->info("✅ Tidak ada foto yang perlu dihapus.");
+            $this->info(" Tidak ada foto yang perlu dihapus.");
             return;
         }
 
         foreach ($unusedPhotos as $file) {
             File::delete($photoPath . '/' . $file);
-            $this->line("🗑️ Dihapus: $file");
+            $this->line(" Dihapus: $file");
         }
 
-        $this->info("🎉 Selesai! Total file yang dihapus: " . $unusedPhotos->count());
+        $this->info(" Selesai! Total file yang dihapus: " . $unusedPhotos->count());
     }
 }

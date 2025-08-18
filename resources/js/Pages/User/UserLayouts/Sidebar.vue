@@ -18,7 +18,6 @@
           <a :href="route('user.cetak.bukti')" target="_blank" class="block w-full">Cetak Bukti</a>
         </li>
       </SidebarSection>
-
       <Link href="/user/logout" method="post" as="button"
         class="block w-full bg-red-600 hover:bg-red-700 py-2 px-4 rounded text-white text-center">
       Logout

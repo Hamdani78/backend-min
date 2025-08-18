@@ -7,10 +7,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BerkasPendaftaran extends Model
 {
-    public function berkas()
-    {
-        return $this->hasOne(\App\Models\BerkasPendaftaran::class);
-    }
     protected $table = 'berkas_pendaftarans';
 
     protected $fillable = [
@@ -26,6 +22,7 @@ class BerkasPendaftaran extends Model
         return $this->belongsTo(Pendaftar::class);
     }
 
+    // Hapus file fisik saat record berkas dihapus
     protected static function booted()
     {
         static::deleting(function ($berkas) {
@@ -36,7 +33,9 @@ class BerkasPendaftaran extends Model
                 $berkas->kip,
             ]);
 
-            Storage::disk('public')->delete($files);
+            if (!empty($files)) {
+                Storage::disk('public')->delete($files);
+            }
         });
     }
 }

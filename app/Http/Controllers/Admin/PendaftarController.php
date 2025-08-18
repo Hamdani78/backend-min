@@ -185,38 +185,16 @@ class PendaftarController extends Controller
 
     public function destroy($id)
     {
-        $pendaftar = Pendaftar::with('berkas')->findOrFail($id);
+        $pendaftar = Pendaftar::with(['berkas', 'orangTuas', 'wali'])->findOrFail($id);
 
-        // Hapus foto jika ada
         if ($pendaftar->foto && Storage::disk('public')->exists($pendaftar->foto)) {
             Storage::disk('public')->delete($pendaftar->foto);
         }
 
-        // Hapus file dan data berkas jika ada
-        if ($pendaftar->berkas) {
-            $berkas = $pendaftar->berkas;
-
-            if ($berkas->ijazah_tk && Storage::disk('public')->exists($berkas->ijazah_tk)) {
-                Storage::disk('public')->delete($berkas->ijazah_tk);
-            }
-            if ($berkas->akte_kelahiran && Storage::disk('public')->exists($berkas->akte_kelahiran)) {
-                Storage::disk('public')->delete($berkas->akte_kelahiran);
-            }
-            if ($berkas->kartu_keluarga && Storage::disk('public')->exists($berkas->kartu_keluarga)) {
-                Storage::disk('public')->delete($berkas->kartu_keluarga);
-            }
-            if ($berkas->kip && Storage::disk('public')->exists($berkas->kip)) {
-                Storage::disk('public')->delete($berkas->kip);
-            }
-
-            $berkas->delete();
-        }
-
-        // Hapus relasi orang tua dan wali
+        $pendaftar->berkas()?->delete();     
         $pendaftar->orangTuas()->delete();
-        $pendaftar->wali()->delete();
+        $pendaftar->wali()?->delete();
 
-        // Hapus pendaftar
         $pendaftar->delete();
 
         return redirect()->route('pendaftar.index')->with('status', 'Pendaftar berhasil dihapus.');

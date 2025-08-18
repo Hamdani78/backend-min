@@ -34,14 +34,14 @@
             <!-- Card besar (board) -->
             <div class="card shadow-sm kgt-board">
               <div class="card-header bg-white border-0 pb-2 d-flex justify-content-between align-items-center">
-                <span class="text-secondary">Halaman {{ idx + 1 }}</span>
+                <!-- <span class="text-secondary">Halaman {{ idx + 1 }}</span> -->
               </div>
               <div class="card-body pt-0">
-                <!-- Grid 6 item di dalam board | pakai struktur card kecil yang sudah ada -->
+                <!-- Grid 6 item di dalam board-->
                 <div class="row g-3 g-lg-4">
                   <div v-for="item in group" :key="item.id" class="col-12 col-md-6 col-lg-4">
                     <div class="card shadow-lg h-100">
-                      <!-- Carousel per kegiatan (tidak diubah) -->
+                      <!-- Carousel per kegiatan -->
                       <div
                         v-if="item.images && item.images.length > 0"
                         :id="`carousel-kegiatan-${item.id}`"

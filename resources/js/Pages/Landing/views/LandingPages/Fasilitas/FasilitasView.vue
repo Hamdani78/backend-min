@@ -36,7 +36,7 @@
             <!-- Board -->
             <div class="card shadow-sm fsl-board">
               <div class="card-header bg-white border-0 pb-2 d-flex justify-content-between align-items-center">
-                <span class="text-secondary">Halaman {{ idx + 1 }}</span>
+                <!-- <span class="text-secondary">Halaman {{ idx + 1 }}</span> -->
               </div>
               <div class="card-body pt-0">
                 <div class="row g-3 g-lg-4">
@@ -100,7 +100,6 @@
         </Swiper>
       </div>
     </section>
-
     <FooterCentered />
   </div>
 </template>
