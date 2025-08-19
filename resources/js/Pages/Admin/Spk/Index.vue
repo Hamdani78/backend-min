@@ -4,11 +4,9 @@ import { router } from '@inertiajs/vue3'
 import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
-  // controller harus mengirim: id, nama, umur, zonasi, berkas, wawancara, nilai_spk
   pendaftars: { type: Array, default: () => [] }
 })
 
-/* ===== Helpers tampilan badge & label ===== */
 const labelUmur = v =>
   v === 0.5 ? '> 6 tahun' :
   v === 0.0 ? '< 6 tahun' : '-'
@@ -87,9 +85,9 @@ function goTo(p) { if (p >= 1 && p <= totalPages.value) page.value = p }
         <thead class="bg-gray-100">
           <tr>
             <th class="px-4 py-2 border border-gray-300">Nama</th>
-            <th class="px-4 py-2 border border-gray-300">Umur (Auto)</th>
-            <th class="px-4 py-2 border border-gray-300">Zonasi (Auto)</th>
-            <th class="px-4 py-2 border border-gray-300">Berkas (Auto)</th>
+            <th class="px-4 py-2 border border-gray-300">Umur</th>
+            <th class="px-4 py-2 border border-gray-300">Zonasi</th>
+            <th class="px-4 py-2 border border-gray-300">Berkas</th>
             <th class="px-4 py-2 border border-gray-300">Wawancara</th>
             <th class="px-4 py-2 border border-gray-300">Status</th>
             <th class="px-4 py-2 border border-gray-300 text-center">Aksi</th>
@@ -104,21 +102,21 @@ function goTo(p) { if (p >= 1 && p <= totalPages.value) page.value = p }
               </div>
             </td>
 
-            <!-- Umur (read-only, label saja) -->
+            <!-- Umur  -->
             <td class="border border-gray-200 px-4 py-2">
               <div :class="chip(p.umur)" :title="scoreTitle(p.umur)">
                 {{ labelUmur(p.umur) }}
               </div>
             </td>
 
-            <!-- Zonasi (read-only, label saja) -->
+            <!-- Zonasi  -->
             <td class="border border-gray-200 px-4 py-2">
               <div :class="chip(p.zonasi)" :title="scoreTitle(p.zonasi)">
                 {{ labelZonasi(p.zonasi) }}
               </div>
             </td>
 
-            <!-- Berkas (read-only, label saja) -->
+            <!-- Berkas  -->
             <td class="border border-gray-200 px-4 py-2">
               <div :class="chip(p.berkas)" :title="scoreTitle(p.berkas)">
                 {{ labelBerkas(p.berkas) }}

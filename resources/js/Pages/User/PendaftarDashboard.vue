@@ -141,7 +141,7 @@
             </div>
 
             <div v-else-if="statusNow === 'selesai'" class="text-green-600 font-semibold text-lg">
-              Pendaftaran Anda telah selesai. Terima kasih!
+              Pendaftaran Anda telah selesai. Silahkan Cetak Bukti Pendaftaran! Terima kasih!
             </div>
 
             <div v-else class="text-gray-600 italic">Status belum tersedia.</div>

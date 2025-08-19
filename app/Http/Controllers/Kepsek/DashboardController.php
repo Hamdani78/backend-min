@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $totalPendaftar = Pendaftar::count();
         $jumlahLulus = Pendaftar::where('status_lulus', 'lulus')->count();
-        $jumlahTidakLulus = Pendaftar::where('status_lulus', 'tidak lulus')->count();
+        $jumlahTidakLulus = Pendaftar::where('status_lulus', 'tidak_lulus')->count();
 
         $statistikPerZonasi = Pendaftar::select('jarak_ke_madrasah as zonasi', DB::raw('count(*) as total'))
             ->groupBy('jarak_ke_madrasah')

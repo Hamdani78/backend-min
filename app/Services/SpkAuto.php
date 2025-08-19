@@ -27,7 +27,11 @@ class SpkAuto
     public static function scoreBerkas($berkas): float
     {
         if (!$berkas) return 0.0;
-        $wajib = [(bool)$berkas->ijazah_tk,(bool)$berkas->akte_kelahiran,(bool)$berkas->kartu_keluarga];
+        $wajib = [
+            (bool) $berkas->ijazah_tk,
+            (bool) $berkas->akte_kelahiran,
+            (bool) $berkas->kartu_keluarga,
+        ];
         $ada = collect($wajib)->filter()->count();
         return match ($ada) { 3 => 0.15, 2 => 0.10, default => 0.05 };
     }
@@ -38,30 +42,41 @@ class SpkAuto
         $zonasi = self::scoreZonasi($p->jarak_ke_madrasah ?? null);
         $berkas = self::scoreBerkas($p->berkas ?? null);
 
-        $rec = $p->spkNilai()->firstOrNew([]);
-        $wawancara = $rec->wawancara ?? 0.0;
+        $rec = $p->spkNilai()->first();
 
-        $rec->fill(compact('umur','zonasi','berkas'));
-        $rec->pendaftar_id = $p->id;
-        $rec->save();
+        if (!$rec) {
+            $rec = $p->spkNilai()->create([
+                'umur'       => $umur,
+                'zonasi'     => $zonasi,
+                'berkas'     => $berkas,
+                'wawancara'  => 0.0,
+            ]);
+        } else {
+            $rec->fill([
+                'umur'   => $umur,
+                'zonasi' => $zonasi,
+                'berkas' => $berkas,
+            ])->save();
+        }
 
-        $p->update(['nilai_spk' => $umur + $zonasi + $berkas + (float)$wawancara]);
+        $p->update([
+            'nilai_spk' => (float) $rec->umur + (float) $rec->zonasi + (float) $rec->berkas + (float) $rec->wawancara,
+        ]);
 
         return $rec->refresh();
     }
 
     public static function setWawancara(Pendaftar $p, float $wawancara): SpkNilai
     {
-        $rec = $p->spkNilai()->firstOrCreate(['pendaftar_id' => $p->id]);
+        $rec = self::sync($p);
+
         $rec->wawancara = $wawancara;
         $rec->save();
 
-        $auto = self::sync($p);
-        if ($auto->wawancara != $wawancara) {
-            $auto->wawancara = $wawancara;
-            $auto->save();
-            $p->update(['nilai_spk' => $auto->umur + $auto->zonasi + $auto->berkas + $wawancara]);
-        }
-        return $auto->refresh();
+        $p->update([
+            'nilai_spk' => (float) $rec->umur + (float) $rec->zonasi + (float) $rec->berkas + (float) $rec->wawancara,
+        ]);
+
+        return $rec->refresh();
     }
 }

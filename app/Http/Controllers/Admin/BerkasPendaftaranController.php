@@ -41,7 +41,7 @@ class BerkasPendaftaranController extends Controller
                 'akte_kelahiran' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 'kartu_keluarga' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
                 // samakan KIP 2MB kalau mau konsisten dengan sisi user:
-                'kip'            => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+                'kip'            => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
             $pendaftar = \App\Models\Pendaftar::find($request->pendaftar_id);
@@ -93,7 +93,7 @@ class BerkasPendaftaranController extends Controller
             'akte_kelahiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             'kartu_keluarga' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
             // samakan KIP 2MB jika perlu konsisten:
-            'kip'            => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'kip'            => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         $data = [];

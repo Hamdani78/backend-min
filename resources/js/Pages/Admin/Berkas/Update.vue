@@ -3,7 +3,6 @@
     <div class="p-4 max-w-xl mx-auto bg-white rounded shadow">
       <h2 class="text-lg font-semibold mb-4">Edit Berkas</h2>
 
-      <!-- Flash error umum -->
       <div v-if="$page.props.errors?.error" class="bg-red-100 text-red-800 p-3 rounded mb-4">
         {{ $page.props.errors.error }}
       </div>
@@ -17,31 +16,21 @@
         >
           <label class="block font-medium text-sm">{{ field.label }}</label>
 
-          <!-- Link berkas lama -->
           <div v-if="berkas?.[field.key]" class="text-xs mt-1">
             <a :href="url(berkas[field.key])" target="_blank" class="text-blue-600 underline">📄 Lihat berkas lama</a>
           </div>
 
-          <!-- Input -->
-          <input
-            type="file"
-            accept=".pdf,image/*"
-            class="mt-2"
-            :ref="el => inputsRef[field.key] = el"
-            @change="onChange($event, field.key)"
-          />
+          <input type="file" accept=".pdf,image/*" class="mt-2"
+                 :ref="el => inputsRef[field.key] = el" @change="onChange($event, field.key)" />
 
-          <!-- Error -->
           <p v-if="clientErrors[field.key]" class="text-xs text-red-600 mt-1">{{ clientErrors[field.key] }}</p>
           <p v-else-if="form.errors[field.key]" class="text-xs text-red-600 mt-1">{{ form.errors[field.key] }}</p>
 
-          <!-- Ringkasan file baru -->
           <div v-if="files[field.key]" class="text-xs text-gray-600 mt-1">
             File baru: {{ files[field.key].name }} • {{ Math.round(files[field.key].size / 1024) }} KB
           </div>
         </div>
 
-        <!-- Progress -->
         <div v-if="progress !== null" class="w-full">
           <div class="h-2 bg-gray-200 rounded">
             <div class="h-2 bg-green-600 rounded" :style="{ width: progress + '%' }"></div>
@@ -49,10 +38,8 @@
           <div class="text-xs text-gray-600 mt-1">Mengunggah: {{ progress }}%</div>
         </div>
 
-        <button
-          class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-60"
-          :disabled="disabledSubmit"
-        >
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-60"
+                :disabled="disabledSubmit">
           <span v-if="!isSubmitting">Simpan Perubahan</span>
           <span v-else>Menyimpan…</span>
         </button>
@@ -62,7 +49,7 @@
 </template>
 
 <script setup>
-import AdminLayout from '@/Layouts/AdminLayout.vue' // ✅ pastikan path ini sesuai struktur project-mu
+import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 
@@ -77,12 +64,10 @@ const fields = [
   { key: 'kip', label: 'KIP (Opsional)' }
 ]
 
-// state file & error
 const files = ref({ ijazah_tk: null, akte_kelahiran: null, kartu_keluarga: null, kip: null })
 const clientErrors = ref({ ijazah_tk: '', akte_kelahiran: '', kartu_keluarga: '', kip: '' })
-const inputsRef = ref({}) // untuk reset input bila perlu
+const inputsRef = ref({})
 
-// inertia form (server errors otomatis di form.errors)
 const form = useForm({
   ijazah_tk: null,
   akte_kelahiran: null,
@@ -93,7 +78,7 @@ const form = useForm({
 const isSubmitting = ref(false)
 const progress = ref(null)
 
-const MAX_SIZE = { default: 5 * 1024 * 1024, kip: 2 * 1024 * 1024 } // 5MB / 2MB (KIP)
+const MAX_SIZE = { default: 5 * 1024 * 1024, kip: 2 * 1024 * 1024 }
 const ALLOWED = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg']
 
 function validate(file, key) {
@@ -107,16 +92,10 @@ function validate(file, key) {
 function onChange(e, key) {
   const input = e.target
   const f = input.files?.[0] || null
-
-  // reset error server untuk field ini biar tidak “nyangkut”
   form.clearErrors(key)
-
   const err = f ? validate(f, key) : ''
   clientErrors.value[key] = err
   files.value[key] = err ? null : f
-
-  // trik: izinkan memilih file yang sama lagi (reset value input)
-  input.value = ''
 }
 
 const hasChanges = computed(() => Object.values(files.value).some(Boolean))
@@ -130,7 +109,6 @@ function submit() {
   isSubmitting.value = true
   progress.value = 0
 
-  // salin hanya field yang diubah
   for (const k of Object.keys(files.value)) form[k] = files.value[k]
 
   form.transform((data) => {
@@ -138,7 +116,7 @@ function submit() {
     Object.entries(data).forEach(([k, v]) => {
       if (v !== null && v !== undefined) fd.append(k, v)
     })
-    fd.append('_method', 'PUT') 
+    fd.append('_method', 'PUT')
     return fd
   })
 

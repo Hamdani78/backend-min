@@ -11,7 +11,7 @@ class Pendaftar extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',
+        'nama','user_id',
         'tempat_lahir',
         'tanggal_lahir',
         'nik',
@@ -53,7 +53,7 @@ class Pendaftar extends Model
         'wawancara_tempat',
         'wawancara_catatan',
 
-        'nilai_spk', 'status_lulus',
+        'nilai_spk', 'status_lulus', 
     ];
 
     protected $casts = [
