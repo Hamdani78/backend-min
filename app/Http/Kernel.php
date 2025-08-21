@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'disablebackbtn' => \App\Http\Middleware\DisableBackBtn::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'pendaftaran.exists' => \App\Http\Middleware\EnsurePendaftaranExists::class,
+        'ppdb.open' => \App\Http\Middleware\CheckPpdbOpen::class,
     ];
 }
